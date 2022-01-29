@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class SpawnBomb : MonoBehaviour
@@ -12,45 +10,60 @@ public class SpawnBomb : MonoBehaviour
     [SerializeField] 
     private GameObject firePrefab;
 
+    private struct FireParameters
+    {
+        public Vector3 Start;
+        // NORTH SOUTH WEST EAST
+        public List<Vector3> Ends;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            var go = Instantiate(bombPrefab, new Vector3(3, 0, 3), bombPrefab.transform.rotation);
-            var bomb = go.GetComponent<Bomb>();
-            bomb.Explode(1f);
-            StartCoroutine(nameof(SetupBomb), 1f);
+            PlantBomb(new Vector3(3, 0, 3), 1f);
+            DetonateBomb(new Vector3(3, 0, 3), new List<Vector3>()
+                {
+                    new Vector3(3, 0, 8),
+                    new Vector3(3, 0, -2),
+                    new Vector3(8, 0, 3),
+                    new Vector3(-2, 0, 3),
+                }
+            );
         }
     }
 
-    private IEnumerator SetupBomb(float time)
+    public void PlantBomb(Vector3 location, float timeDelay)
     {
-        yield return new WaitForSeconds(time);
+        Instantiate(bombPrefab, new Vector3(3, 0, 3), bombPrefab.transform.rotation)
+            .GetComponent<Bomb>()
+            .Explode(timeDelay);
+    }
 
-        yield return Burn(new Vector3(3, 0, 3), new List<Vector3>()
+    public void DetonateBomb(Vector3 start, List<Vector3> ends)
+    {
+        StartCoroutine(nameof(Burn), new FireParameters()
         {
-            new Vector3(3,0,8),
-            new Vector3(3,0,-2),
-            new Vector3(8,0,3),
-            new Vector3(-2,0,3),
+            Start = start,
+            Ends = ends
         });
     }
 
-    private IEnumerator Burn(Vector3 start, List<Vector3> ends)
+    private IEnumerator Burn(FireParameters parameters)
     {
         var delayBetweenSpawns = 1f;
-        var overlapBetweenSpawns = 0.4f;
+        var overlapBetweenSpawns = 0.3f;
         
-        var north = start;
-        var south = start;
-        var west = start;
-        var east = start;
+        var north = parameters.Start;
+        var south = parameters.Start;
+        var west = parameters.Start;
+        var east = parameters.Start;
 
         // Find longest distance from start to end
         var maxDistance = 0f;
-        foreach (var end in ends)
+        foreach (var end in parameters.Ends)
         {
-            var d = Vector3.Distance(start, end);
+            var d = Vector3.Distance(parameters.Start, end);
             if (d > maxDistance) maxDistance = d;
         }
         
@@ -58,27 +71,30 @@ public class SpawnBomb : MonoBehaviour
         delayBetweenSpawns /= maxDistance;
 
         // Spawn in a circle from the start to all ends
-        while (ends[0] != north || ends[1] != south || ends[2] != west || ends[3] != east)
+        while (parameters.Ends[0] != north || 
+               parameters.Ends[1] != south || 
+               parameters.Ends[2] != west || 
+               parameters.Ends[3] != east)
         {
-            if(ends[0] != north)
+            if(parameters.Ends[0] != north)
             {
                 north += new Vector3(0, 0, 1);
                 var go = Instantiate(firePrefab, north, Quaternion.Euler(0, -90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(ends[1] != south)
+            if(parameters.Ends[1] != south)
             {
                 south += new Vector3(0, 0, -1);
                 var go = Instantiate(firePrefab, south, Quaternion.Euler(0, 90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(ends[2] != west)
+            if(parameters.Ends[2] != west)
             {
                 west += new Vector3(-1, 0, 0);
                 var go = Instantiate(firePrefab, west, Quaternion.Euler(0, 180, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(ends[3] != east)
+            if(parameters.Ends[3] != east)
             {
                 east += new Vector3(1, 0, 0);
                 var go = Instantiate(firePrefab, east, Quaternion.Euler(0, 0, 0));

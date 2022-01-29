@@ -13,7 +13,7 @@ public class Fire : MonoBehaviour
         anim.SetFloat("Speed", 1f/time);
         StartCoroutine(nameof(DestroyMe), time);
     }
-
+    
     private IEnumerator DestroyMe(float delay)
     {
         yield return new WaitForSeconds(delay);
