@@ -12,7 +12,12 @@ public class in_game_control : MonoBehaviour
 
     private void Start()
     {
-        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        networkManager = GameObject.Find("NetworkManager")?.GetComponent<NetworkManager>();
+        if (networkManager == null)
+        {
+            gameObject.SetActive(false);
+            Debug.LogError("Missing NetworkManager! Load this scene from TestNetworking.");
+        }
     }
 
     private void Update()
