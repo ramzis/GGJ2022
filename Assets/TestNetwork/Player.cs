@@ -9,6 +9,25 @@ public class Player : NetworkBehaviour
     public int ActionId = 0;
 
     [Client]
+    void Start()
+    {
+        if (!hasAuthority) return;
+        Debug.Log(GetComponent<NetworkIdentity>().netId);
+        if (GetComponent<NetworkIdentity>().netId == 2)
+        {
+            GameObject.FindGameObjectWithTag("MainCamera").transform.position = new Vector3(0, 2.9f, 0);
+            GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles = new Vector3(30, 45, 0);
+        }
+        else
+        {
+
+            GameObject.FindGameObjectWithTag("MainCamera").transform.position = new Vector3(0, -2.9f, 0);
+            GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles = new Vector3(-30, -45, 0);
+            
+        }
+    }
+
+    [Client]
     void Update()
     {
         if (!hasAuthority) return;
@@ -36,6 +55,7 @@ public class Player : NetworkBehaviour
         {
             CmdAction(4);
         }
+        
     }
     [Command]
     void CmdAction(int a)
