@@ -21,8 +21,6 @@ public class in_game_control : MonoBehaviour
 
         if (ui_setting[1].activeSelf || ui_setting[0].activeSelf) return;
         
-        Debug.Log(networkManager.mode);
-        
         switch (networkManager.mode.ToString())
         {
             case "Host":
