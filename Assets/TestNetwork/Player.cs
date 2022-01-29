@@ -7,14 +7,14 @@ public class Player : NetworkBehaviour
 {
     GameState gamestate;
     bool playerID = false;//false = host, true = client.
-
+    int ActionId = 0;
     [Client]
     private void Start()
     {
         if (!hasAuthority) return;
         gamestate = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameState>();
         
-        if(gameObject.name== "Player [connId=0]")
+        if(GetComponent<NetworkIdentity>().netId==1)
         {
             playerID = false;
         }
@@ -29,44 +29,45 @@ public class Player : NetworkBehaviour
         if (!hasAuthority) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerAction(1);
+            CmdPlayerAction(0);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerAction(2);
+            CmdPlayerAction(1);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            PlayerAction(3);
+            CmdPlayerAction(3);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            PlayerAction(2);
+            CmdPlayerAction(4);
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            PlayerAction(3);
+            CmdPlayerAction(2);
         }
     }
 
     [Command]
-    void PlayerAction(int a)
+    void CmdPlayerAction(int a)
     {
-        DoAction(a);
+        RpcDoAction(a);
+
     }
 
     [ClientRpc]
 
-    private void DoAction(int a)
+    private void RpcDoAction(int a)
     {
-        if (playerID) // client p2
+        if(playerID)
         {
             gamestate.P2Action = a;
-
         }
-        else // host p1
+        else
         {
             gamestate.P1Action = a;
         }
+        //ActionId = a;
     }
 }
