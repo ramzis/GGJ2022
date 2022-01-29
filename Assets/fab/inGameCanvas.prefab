@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6721549752302171759}
         m_TargetAssemblyTypeName: in_game_control, Assembly-CSharp
-        m_MethodName: leftHost
+        m_MethodName: LeftHost
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -376,7 +376,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6721549752302171759}
         m_TargetAssemblyTypeName: in_game_control, Assembly-CSharp
-        m_MethodName: leftClient
+        m_MethodName: LeftClient
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
