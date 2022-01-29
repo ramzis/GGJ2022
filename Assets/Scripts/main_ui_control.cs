@@ -8,12 +8,12 @@ public class main_ui_control : MonoBehaviour
     [SerializeField]
     GameObject start_, change_, settings_, credits_;
     /// <summary>
-    ///  laikinas nick  
+    ///  laikini  
     ///  
     /// </summary>
     [SerializeField]
     string nick, enemy;
-
+   
 
     // Start is called before the first frame update
     void Start()
