@@ -21,8 +21,8 @@ public class Player : NetworkBehaviour
         else
         {
 
-            GameObject.FindGameObjectWithTag("MainCamera").transform.position = new Vector3(0, -2.9f, 0);
-            GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles = new Vector3(-30, -45, 0);
+            GameObject.FindGameObjectWithTag("MainCamera").transform.position = new Vector3(7, -2.9f, 7);
+            GameObject.FindGameObjectWithTag("MainCamera").transform.eulerAngles = new Vector3(-30, -135, 180);
             
         }
     }
@@ -45,15 +45,15 @@ public class Player : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            CmdAction(2);
+            CmdAction(3);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            CmdAction(3);
+            CmdAction(4);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            CmdAction(4);
+            CmdAction(2);
         }
         
     }
