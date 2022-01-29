@@ -5,69 +5,47 @@ using Mirror;
 
 public class Player : NetworkBehaviour
 {
-    GameState gamestate;
-    bool playerID = false;//false = host, true = client.
-    int ActionId = 0;
-    [Client]
-    private void Start()
-    {
-        if (!hasAuthority) return;
-        gamestate = GameObject.FindGameObjectWithTag("GameState").GetComponent<GameState>();
-        
-        if(GetComponent<NetworkIdentity>().netId==1)
-        {
-            playerID = false;
-        }
-        else
-        {
-            playerID = true;
-        }
-    }
+
+    public int ActionId = 0;
+
     [Client]
     void Update()
     {
         if (!hasAuthority) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Q)) // build wall
         {
-            CmdPlayerAction(0);
+            CmdAction(5);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.E)) // build bomb
         {
-            CmdPlayerAction(1);
+            CmdAction(6);
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            CmdPlayerAction(3);
+            CmdAction(1);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
-            CmdPlayerAction(4);
+            CmdAction(2);
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
-            CmdPlayerAction(2);
+            CmdAction(3);
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            CmdAction(4);
         }
     }
-
     [Command]
-    void CmdPlayerAction(int a)
+    void CmdAction(int a)
     {
-        RpcDoAction(a);
-
+        RpcAction(a);
     }
-
     [ClientRpc]
-
-    private void RpcDoAction(int a)
+    void RpcAction(int a)
     {
-        if(playerID)
-        {
-            gamestate.P2Action = a;
-        }
-        else
-        {
-            gamestate.P1Action = a;
-        }
-        //ActionId = a;
+        ActionId = a;
     }
+
 }
