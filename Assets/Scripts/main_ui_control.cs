@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 /// <summary>
 /// laikinas
 /// </summary>
@@ -11,6 +12,7 @@ public class main_ui_control : MonoBehaviour
     public static main_ui_control ins;
     [SerializeField]
     GameObject start_, change_, settings_, credits_;
+    public Text nick_holder;
     /// <summary>
     ///  laikini  
     ///  
@@ -23,6 +25,12 @@ public class main_ui_control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.HasKey("nick_"))
+        {
+            nick_holder.text = "nick: " + getNick(); 
+        }
+        
+
         ins = this;
     } 
     // Update is called once per frame
@@ -43,6 +51,7 @@ public class main_ui_control : MonoBehaviour
     {
         nick = a;
         PlayerPrefs.SetString("nick_", a);
+        nick_holder.text = "nick: " + a;
     }
     public string getNick()
     {
