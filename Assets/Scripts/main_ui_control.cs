@@ -19,7 +19,7 @@ public class main_ui_control : MonoBehaviour
     ///  
     /// </summary>
     [SerializeField]
-    string nick, enemy,ip_address;
+    string  enemy,ip_address;
     [SerializeField]
     NetworkManager networkManager;
 
@@ -50,7 +50,7 @@ public class main_ui_control : MonoBehaviour
 
     public void setNick(string a)
     {
-        nick = a;
+        
         PlayerPrefs.SetString("nick_", a);
         nick_holder.text = "nick: " + a;
     }
