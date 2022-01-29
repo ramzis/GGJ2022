@@ -13,12 +13,13 @@ public class main_ui_control : MonoBehaviour
     [SerializeField]
     GameObject start_, change_, settings_, credits_;
     public Text nick_holder;
+    public InputField ip_holder;
     /// <summary>
     ///  laikini  
     ///  
     /// </summary>
     [SerializeField]
-    string nick, enemy,ip_adress;
+    string nick, enemy,ip_address;
     [SerializeField]
     NetworkManager networkManager;
 
@@ -29,8 +30,8 @@ public class main_ui_control : MonoBehaviour
         {
             nick_holder.text = "nick: " + getNick(); 
         }
-        
-
+        ip_holder.text = GetLocalIPAddress();
+        ip_address = GetLocalIPAddress();
         ins = this;
     } 
     // Update is called once per frame
@@ -59,15 +60,16 @@ public class main_ui_control : MonoBehaviour
     }
     public void host_game()
     {
-     
+        networkManager.networkAddress = ip_address;
+        networkManager.StartHost();
     }
     public void setIp(string _ip)
     {
-        ip_adress = _ip;
+        ip_address = _ip;
     }
     public void JoinGame()
     {
-        networkManager.networkAddress = ip_adress;
+        networkManager.networkAddress = ip_address;
         networkManager.StartClient();
     }
     public void exsit()
@@ -75,5 +77,20 @@ public class main_ui_control : MonoBehaviour
         
             Application.Quit();
       
+    }
+
+    //ip4 getas
+    public static string GetLocalIPAddress()
+    {
+        var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+
+        throw new System.Exception("localhost");
     }
 }
