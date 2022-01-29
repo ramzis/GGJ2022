@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 /// <summary>
 /// laikinas
 /// </summary>
@@ -22,10 +23,11 @@ public class main_ui_control : MonoBehaviour
     string  enemy,ip_address;
     [SerializeField]
     NetworkManager networkManager;
-
+    private Scene scene;
     // Start is called before the first frame update
     void Start()
     {
+        scene = SceneManager.GetActiveScene();
         if (PlayerPrefs.HasKey("nick_"))
         {
             nick_holder.text = "nick: " + getNick(); 
@@ -41,6 +43,7 @@ public class main_ui_control : MonoBehaviour
         {
             Application.Quit();
         }
+        
     }
     
     public void open_settings()
