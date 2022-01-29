@@ -5,6 +5,8 @@ using Mirror;
 
 public class Player : NetworkBehaviour
 {
+    [SyncVar]
+    [SerializeField] string enemy;
 
     public int ActionId = 0;
 
@@ -56,6 +58,21 @@ public class Player : NetworkBehaviour
             CmdAction(2);
         }
         
+    }
+    void OnClientConnect()
+    {
+        send_name(main_ui_control.ins.getNick());
+    }
+
+    [Client]
+    public void send_name(string a)
+    {
+        CmdSyncHP(a);
+    }
+    [Command]
+    void CmdSyncHP(string a)
+    {
+        enemy = a;
     }
     [Command]
     void CmdAction(int a)

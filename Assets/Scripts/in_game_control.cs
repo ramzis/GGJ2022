@@ -23,7 +23,7 @@ public class in_game_control : MonoBehaviour
     void Update()
     {
        // Debug.Log(networkManager.mode);
-        Debug.Log("ping "+ NetworkTime.rtt);
+      //  Debug.Log("ping "+ NetworkTime.rtt);
         scene = SceneManager.GetActiveScene();
         if ( scene.name == "Main")
         {

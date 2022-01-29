@@ -14,6 +14,9 @@ public class main_ui_control : MonoBehaviour
     public InputField ip_holder; 
     [SerializeField]
     string  enemy,ip_address;
+   //[SyncVar]
+    [SerializeField] private string nick_txt;
+
     [SerializeField]
     NetworkManager networkManager;
     private Scene scene; 
@@ -23,6 +26,7 @@ public class main_ui_control : MonoBehaviour
         if (PlayerPrefs.HasKey("nick_"))
         {
             nick_holder.text = "nick: " + getNick(); 
+            nick_txt= getNick();
         }
         ip_holder.text = GetLocalIPAddress();
         ip_address = GetLocalIPAddress();
@@ -45,6 +49,7 @@ public class main_ui_control : MonoBehaviour
         
         PlayerPrefs.SetString("nick_", a);
         nick_holder.text = "nick: " + a;
+        nick_txt = a;
     }
     public string getNick()
     {
