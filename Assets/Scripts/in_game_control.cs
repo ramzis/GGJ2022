@@ -22,9 +22,10 @@ public class in_game_control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(networkManager.mode);
+       // Debug.Log(networkManager.mode);
+        Debug.Log("ping "+ NetworkTime.rtt);
         scene = SceneManager.GetActiveScene();
-        if (scene.name == "Main")
+        if ( scene.name == "Main")
         {
             if (ui_setting[1].activeSelf == false && ui_setting[0].activeSelf == false)
             {
@@ -45,17 +46,15 @@ public class in_game_control : MonoBehaviour
                 }
             }
         }
-    }
-//    public void OnServerConnect(NetworkConnection a){
-   ///     Debug.Log(a.connectionId);
-///}
+    } 
     public void leftHost()
-    {
-        networkManager.StopClient();
+    { 
+        networkManager.StopHost(); 
+        //NetworkServer.Shutdown();
     }
     public void leftClient()
     {
-        networkManager.StopHost();
+       networkManager.StopClient();
     }
      
 }

@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-/// <summary>
-/// laikinas
-/// </summary>
+using UnityEngine.SceneManagement; 
 using Mirror;
 
 public class main_ui_control : MonoBehaviour
@@ -14,17 +11,12 @@ public class main_ui_control : MonoBehaviour
     [SerializeField]
     GameObject start_, change_, settings_, credits_;
     public Text nick_holder;
-    public InputField ip_holder;
-    /// <summary>
-    ///  laikini  
-    ///  
-    /// </summary>
+    public InputField ip_holder; 
     [SerializeField]
     string  enemy,ip_address;
     [SerializeField]
     NetworkManager networkManager;
-    private Scene scene;
-    // Start is called before the first frame update
+    private Scene scene; 
     void Start()
     {
         scene = SceneManager.GetActiveScene();
@@ -36,7 +28,6 @@ public class main_ui_control : MonoBehaviour
         ip_address = GetLocalIPAddress();
         ins = this;
     } 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKey(KeyCode.Escape))
@@ -45,12 +36,10 @@ public class main_ui_control : MonoBehaviour
         }
         
     }
-    
     public void open_settings()
     {
         settings_.SetActive(true);
     }
-
     public void setNick(string a)
     {
         
@@ -81,8 +70,6 @@ public class main_ui_control : MonoBehaviour
             Application.Quit();
       
     }
-
-    //ip4 getas
     public static string GetLocalIPAddress()
     {
         var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
