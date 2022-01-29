@@ -48,6 +48,14 @@ MonoBehaviour:
   syncInterval: 0.1
   P1: {fileID: 0}
   P2: {fileID: 0}
+  Player1Pref: {fileID: 1071583066927130427, guid: eaf355d995db93d4184a1be8450fda11, type: 3}
+  Player2Pref: {fileID: 6780969564014383409, guid: 2ee17f962bc808c479b52ad24999dc87, type: 3}
+  BombPref: {fileID: 0}
+  BombWaitPref: {fileID: 0}
+  WallPref: {fileID: 0}
+  WallWaitPref: {fileID: 0}
+  Player1Instance: {fileID: 0}
+  Player2Instance: {fileID: 0}
 --- !u!114 &2735686746730430737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,5 +71,5 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 6084a514a38a0d540a2acc902bd3c24b
   hasSpawned: 0
