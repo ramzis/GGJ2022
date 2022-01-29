@@ -443,6 +443,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1934141400, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 8253338891579645584}
+    - target: {fileID: 1934141400, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: host_game
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934141400, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: main_ui_control, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934141400, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8245622006483739747, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
       propertyPath: networkManager
       value: 
@@ -537,3 +553,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+--- !u!114 &8253338891579645584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8245622006483739747, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+  m_PrefabInstance: {fileID: 8253338891579645583}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc5dc3123128824898153dc68af9b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
