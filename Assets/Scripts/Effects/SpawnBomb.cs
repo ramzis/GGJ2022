@@ -7,8 +7,10 @@ public class SpawnBomb : MonoBehaviour
     [SerializeField]
     private GameObject bombPrefab;
 
-    [SerializeField] 
+    [SerializeField]
     private GameObject firePrefab;
+    [SerializeField]
+    private GameObject Box;
 
     private struct FireParameters
     {
@@ -31,7 +33,18 @@ public class SpawnBomb : MonoBehaviour
                 }
             );
         }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SpawnBox(new Vector3(2, 0, 3), 2f);
+        }
     }
+    public void SpawnBox(Vector3 location, float speed)
+    {
+        Instantiate(Box, new Vector3(3, 0, 3), Box.transform.rotation)
+            .GetComponent<BoxHolder>()
+            .AllBoxControl(speed);
+    }
+
 
     public void PlantBomb(Vector3 location, float timeDelay)
     {
@@ -53,7 +66,7 @@ public class SpawnBomb : MonoBehaviour
     {
         var delayBetweenSpawns = 1f;
         var overlapBetweenSpawns = 0.3f;
-        
+
         var north = parameters.Start;
         var south = parameters.Start;
         var west = parameters.Start;
@@ -66,35 +79,35 @@ public class SpawnBomb : MonoBehaviour
             var d = Vector3.Distance(parameters.Start, end);
             if (d > maxDistance) maxDistance = d;
         }
-        
+
         // Normalize delay so all spawns happen in 1 second
         delayBetweenSpawns /= maxDistance;
 
         // Spawn in a circle from the start to all ends
-        while (parameters.Ends[0] != north || 
-               parameters.Ends[1] != south || 
-               parameters.Ends[2] != west || 
+        while (parameters.Ends[0] != north ||
+               parameters.Ends[1] != south ||
+               parameters.Ends[2] != west ||
                parameters.Ends[3] != east)
         {
-            if(parameters.Ends[0] != north)
+            if (parameters.Ends[0] != north)
             {
                 north += new Vector3(0, 0, 1);
                 var go = Instantiate(firePrefab, north, Quaternion.Euler(0, -90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(parameters.Ends[1] != south)
+            if (parameters.Ends[1] != south)
             {
                 south += new Vector3(0, 0, -1);
                 var go = Instantiate(firePrefab, south, Quaternion.Euler(0, 90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(parameters.Ends[2] != west)
+            if (parameters.Ends[2] != west)
             {
                 west += new Vector3(-1, 0, 0);
                 var go = Instantiate(firePrefab, west, Quaternion.Euler(0, 180, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
-            if(parameters.Ends[3] != east)
+            if (parameters.Ends[3] != east)
             {
                 east += new Vector3(1, 0, 0);
                 var go = Instantiate(firePrefab, east, Quaternion.Euler(0, 0, 0));
