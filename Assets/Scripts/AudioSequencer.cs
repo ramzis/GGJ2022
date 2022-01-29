@@ -5,66 +5,172 @@ using UnityEngine;
 public class AudioSequencer : MonoBehaviour
 {
     [SerializeField]
+    private int boardSize;
+
+    [SerializeField]
     private AudioSource sequencerSource;
 
     [SerializeField]
-    private AudioSource player1;
+    private AudioClip rhythm1;
+    [SerializeField]
+    private AudioClip rhythm2;
+    [SerializeField]
+    private AudioClip rhythm3;
+    [SerializeField]
+    private AudioClip rhythm4;
+    [SerializeField]
+    private AudioClip rhythm5;
+    [SerializeField]
+    private AudioClip rhythm6;
+    [SerializeField]
+    private AudioClip rhythm7;
+    [SerializeField]
+    private AudioClip rhythm8;
 
     [SerializeField]
-    private AudioSource player2;
+    private AudioClip melody1;
+    [SerializeField]
+    private AudioClip melody2;
+    [SerializeField]
+    private AudioClip melody3;
+    [SerializeField]
+    private AudioClip melody4;
+    [SerializeField]
+    private AudioClip melody5;
+    [SerializeField]
+    private AudioClip melody6;
+    [SerializeField]
+    private AudioClip melody7;
+    [SerializeField]
+    private AudioClip melody8;
 
-    public List<AudioSource> bombSources;
-    public List<AudioSource> tileSources;
+    private bool[,] boardRhythm;
+    private bool[,] boardMelody;
 
-    [SerializeField]
-    private AudioClip ping;
-    [SerializeField]
-    private AudioClip kick;
-
-    [SerializeField]
-    private AudioClip move;
-    [SerializeField]
-    private AudioClip placeTile;
-    [SerializeField]
-    private AudioClip placeBomb;
-    [SerializeField]
-    private AudioClip spawnTile;
-    [SerializeField]
-    private AudioClip explodeBomb;
-
-    private int beatPosition = 0;
-    private int sequenceLength = 16;
+    public int beatPosition = 0;
 
 
-
+    private void Awake()
+    {
+        boardRhythm = new bool[boardSize, boardSize];
+        boardMelody = new bool[boardSize, boardSize];
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        var bombSources = new List<AudioSource>();
+        Debug.Log("Fast beat");
         BeatEmmiter.OnFastBeat += TriggerAudio;
     }
 
     private void TriggerAudio()
     {
-        // Placeholder for soundtrack sequence
 
-        // Trigger Basic kick
-        if (beatPosition % 4 == 0)
+        Debug.Log("Trigger");
+
+
+        if (boardRhythm[0, beatPosition])
         {
-            sequencerSource.PlayOneShot(kick);
+            sequencerSource.PlayOneShot(rhythm1);
         }
 
-        // Trigger ping 
-        if (beatPosition % 2 == 0)
+        if (boardRhythm[1, beatPosition])
         {
-            sequencerSource.PlayOneShot(ping);
+            sequencerSource.PlayOneShot(rhythm2);
         }
 
-        beatPosition = (beatPosition + 1) % sequenceLength;
+        if (boardRhythm[2, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm3);
+        }
+
+        if (boardRhythm[3, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm4);
+        }
+
+        if (boardRhythm[4, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm5);
+        }
+
+        if (boardRhythm[5, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm6);
+        }
+
+        if (boardRhythm[6, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm7);
+        }
+
+        if (boardRhythm[7, beatPosition])
+        {
+            sequencerSource.PlayOneShot(rhythm8);
+        }
+
+        if (boardMelody[0, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody1);
+        }
+
+        if (boardMelody[1, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody2);
+        }
+
+        if (boardMelody[2, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody3);
+        }
+
+        if (boardMelody[3, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody4);
+        }
+
+        if (boardMelody[4, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody5);
+        }
+
+        if (boardMelody[5, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody6);
+        }
+
+        if (boardMelody[6, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody7);
+        }
+
+        if (boardMelody[7, beatPosition])
+        {
+            sequencerSource.PlayOneShot(melody8);
+        }
+
+        beatPosition = (beatPosition + 1) % boardSize;
     }
 
+    public void CreateTileBoardRhythm(int x, int y)
+    {
+        boardRhythm[x, y] = true;
+    }
 
+    public void CreateTileBoardMelody(int x, int y)
+    {
+        boardMelody[x, y] = true;
+    }
+
+    public void DestroyTileBoardRhythm(int x, int y)
+    {
+        boardRhythm[x, y] = false;
+    }
+
+    public void DestroyTileBoardMelody(int x, int y)
+    {
+        boardMelody[x, y] = false;
+    }
 
     // Update is called once per frame
     void Update()
