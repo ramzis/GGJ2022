@@ -13,12 +13,16 @@ public class main_ui_control : MonoBehaviour
     public Text nick_holder;
     public InputField ip_holder; 
     [SerializeField]
-    string  enemy,ip_address;
-   //[SyncVar]
+    string  enemy,ip_address; 
     [SerializeField] private string nick_txt;
 
     [SerializeField]
     NetworkManager networkManager;
+    [SerializeField]
+     Mirror.Discovery.NetworkDiscovery ndHud;
+     
+    public List<string> ip_meniu;
+   
     private Scene scene; 
     void Start()
     {
@@ -38,7 +42,11 @@ public class main_ui_control : MonoBehaviour
         {
             Application.Quit();
         }
-        
+         
+    }
+    public void addIp(Mirror.Discovery.ServerResponse a )
+    {
+        ip_meniu.Add(a.EndPoint.ToString());
     }
     public void open_settings()
     {
@@ -52,7 +60,7 @@ public class main_ui_control : MonoBehaviour
         nick_txt = a;
     }
     public string getNick()
-    {
+    { 
         return PlayerPrefs.GetString("nick_");
     }
     public void host_game()
