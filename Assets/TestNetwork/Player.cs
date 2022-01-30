@@ -60,8 +60,10 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         } 
-        if (NetworkServer.connections.Count == 2 && MyNick=="")
-        { 
+        if (NetworkServer.connections.Count == 2)
+        {
+            if (!isLocalPlayer) return;
+
             if (PlayerPrefs.HasKey("nick_"))
                     {
                 Cmdstring(PlayerPrefs.GetString("nick_"));
@@ -77,12 +79,13 @@ public class Player : NetworkBehaviour
     [Command]
     void Cmdstring(string a)
     {
-        Rpcstring(a);
+        //Rpcstring(a);
+        MyNick = a;
     }
     [ClientRpc]
     void Rpcstring(string a)
     {
-        MyNick = a;
+    
     }
     [Command]
     void CmdAction(int a)
