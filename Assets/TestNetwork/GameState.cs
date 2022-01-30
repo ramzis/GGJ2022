@@ -103,24 +103,24 @@ public class GameState : NetworkBehaviour
         Player2Instance = Instantiate(Player2Pref, new Vector3(7, 0, 7), Quaternion.Euler(new Vector3(180, 0, 0)));
 
         gameReady = true;
-        
-        audio.CreateTileBoardRhythm(0,0);
+
+        audio.CreateTileBoardRhythm(0, 0);
     }
 
     private void SetPlayerPosition(PlayerType p, Vector2Int pos)
     {
-        playerPositions[(int) p] = pos;
-        arena[pos.x, pos.y, (int) p] = (int) BlockData.Player;
+        playerPositions[(int)p] = pos;
+        arena[pos.x, pos.y, (int)p] = (int)BlockData.Player;
     }
 
     private void ClearPosition(PlayerType p, Vector2Int pos)
     {
-        arena[pos.x, pos.y, (int) p] = (int) BlockData.Empty;
+        arena[pos.x, pos.y, (int)p] = (int)BlockData.Empty;
     }
 
     private BlockData CheckPosition(PlayerType p, Vector2Int pos)
     {
-        return (BlockData) arena[pos.x, pos.y, (int) p];
+        return (BlockData)arena[pos.x, pos.y, (int)p];
     }
 
     private PlayerType OtherPlayer(PlayerType p)
@@ -138,7 +138,8 @@ public class GameState : NetworkBehaviour
         ProcessPlayerMove(PlayerType.Player2);
     }
 
-    [SerializeField] private Dictionary<PlayerType, Dictionary<GameAction, Vector2Int>> playerToActionDirectionMap =
+    [SerializeField]
+    private Dictionary<PlayerType, Dictionary<GameAction, Vector2Int>> playerToActionDirectionMap =
         new Dictionary<PlayerType, Dictionary<GameAction, Vector2Int>>()
         {
             {
@@ -167,8 +168,8 @@ public class GameState : NetworkBehaviour
     {
         actionToCheck = p switch
         {
-            PlayerType.Player1 => (GameAction) P1.ActionId,
-            PlayerType.Player2 => (GameAction) P2.ActionId,
+            PlayerType.Player1 => (GameAction)P1.ActionId,
+            PlayerType.Player2 => (GameAction)P2.ActionId,
             _ => actionToCheck
         };
 
@@ -186,37 +187,37 @@ public class GameState : NetworkBehaviour
                 {
                     case PlayerType.Player1:
                         Player1Instance.gameObject.transform.Translate(dir.y, 0, dir.x, Space.World);
-                        ClearPosition(p, playerPositions[(int) p]);
-                        SetPlayerPosition(PlayerType.Player1, playerPositions[(int) p] + dir);
+                        ClearPosition(p, playerPositions[(int)p]);
+                        SetPlayerPosition(PlayerType.Player1, playerPositions[(int)p] + dir);
                         break;
                     case PlayerType.Player2:
                         Player2Instance.gameObject.transform.Translate(dir.y, 0, dir.x, Space.World);
-                        ClearPosition(p, playerPositions[(int) p]);
-                        SetPlayerPosition(PlayerType.Player2, playerPositions[(int) p] + dir);
+                        ClearPosition(p, playerPositions[(int)p]);
+                        SetPlayerPosition(PlayerType.Player2, playerPositions[(int)p] + dir);
                         break;
                 }
 
                 break;
             case GameAction.Wall:
-                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int)BlockData.Wall) break;
                 if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 5;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = -5;
-                SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 
-                    Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player2);
-                Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player1);
-                audio.CreateTileBoardRhythm(playerPositions[(int) p].y, playerPositions[(int) p].x);
-                mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value*0.5f);
+                arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] = 5;
+                arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] = -5;
+                SceneObjects[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] =
+                    Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player2, p);
+                Spawner.PlantBomb(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
+                audio.CreateTileBoardRhythm(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
                 break;
             case GameAction.Bomb:
-                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int)BlockData.Wall) break;
                 if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = -5;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 5;
-                SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 
-                    Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player1);
-                Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player2);
-                StartCoroutine(StartShortMelody(playerPositions[(int) p].y, playerPositions[(int) p].x));
+                arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] = -5;
+                arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] = 5;
+                SceneObjects[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] =
+                    Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
+                Spawner.PlantBomb(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player2, p);
+                StartCoroutine(StartShortMelody(playerPositions[(int)p].y, playerPositions[(int)p].x));
                 mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
                 break;
             default:
@@ -227,10 +228,10 @@ public class GameState : NetworkBehaviour
         switch (p)
         {
             case PlayerType.Player1:
-                P1.ActionId = (int) GameAction.Still;
+                P1.ActionId = (int)GameAction.Still;
                 break;
             case PlayerType.Player2:
-                P2.ActionId = (int) GameAction.Still;
+                P2.ActionId = (int)GameAction.Still;
                 break;
         }
     }
@@ -249,7 +250,7 @@ public class GameState : NetworkBehaviour
         Vector3 nextStep = pop.Item1 + pop.Item2;
 
         if (nextStep.x >= 0 && nextStep.x < 8 && nextStep.z >= 0 && nextStep.z < 8)
-            if (arena[(int) nextStep.z, (int) nextStep.x, (int) p] == (int) BlockData.Empty)
+            if (arena[(int)nextStep.z, (int)nextStep.x, (int)p] == (int)BlockData.Empty)
                 neighbors.Add((nextStep, pop.Item2));
 
         return neighbors;
@@ -264,7 +265,7 @@ public class GameState : NetworkBehaviour
         stack.Push((start, new Vector3Int(-1, 0, 0)));
         stack.Push((start, new Vector3Int(0, 0, -1)));
         stack.Push((start, new Vector3Int(0, 0, 1)));
-  
+
 
         while (stack.Count > 0)
         {
@@ -276,12 +277,12 @@ public class GameState : NetworkBehaviour
             else
             {
                 Vector3 nextStep = pop.Item1 + pop.Item2;
-                 if (nextStep.x >= 0 && nextStep.x < 8 && nextStep.z >= 0 && nextStep.z < 8)
-                                results.Add(pop.Item1+ pop.Item2);
-                 else
-                 {
-                     results.Add(pop.Item1);
-                 }
+                if (nextStep.x >= 0 && nextStep.x < 8 && nextStep.z >= 0 && nextStep.z < 8)
+                    results.Add(pop.Item1 + pop.Item2);
+                else
+                {
+                    results.Add(pop.Item1);
+                }
             }
         }
         return results;
@@ -290,45 +291,45 @@ public class GameState : NetworkBehaviour
     private void ProcessTimers()
     {
         for (int z = 0; z < 8; z++)
-        for (int x = 0; x < 8; x++)
-        for (int i = 0; i < 2; i++)
-        {
-            if (arenaTimer[z, x, i] > 1)
-                arenaTimer[z, x, i]--;
-            else if (arenaTimer[z, x, i] < -1)
-                arenaTimer[z, x, i]++;
-
-            if (arenaTimer[z, x, i] == 1)
-            {
-                arenaTimer[z, x, i] = 0;
-                arena[z, x, i] = (int) BlockData.Wall;
-            }
-
-
-            if (arenaTimer[z, x, i] == -1)
-            {
-                arenaTimer[z, x, i] = 0;
-                var locations = FindLocationsDFS((PlayerType)i, new Vector3(x, 0, z));
-
-                foreach (var loc in locations)
+            for (int x = 0; x < 8; x++)
+                for (int i = 0; i < 2; i++)
                 {
-                    if (arena[(int) loc.z, (int) loc.x, i] == (int) BlockData.Wall || arena[z, x, i] == (int) BlockData.Wall)
+                    if (arenaTimer[z, x, i] > 1)
+                        arenaTimer[z, x, i]--;
+                    else if (arenaTimer[z, x, i] < -1)
+                        arenaTimer[z, x, i]++;
+
+                    if (arenaTimer[z, x, i] == 1)
                     {
-                        SceneObjects[(int) loc.z, (int) loc.x, i].GetComponent<BoxHolder>().naikinti();
-                        arena[(int) loc.z, (int) loc.x, i] = 0;
+                        arenaTimer[z, x, i] = 0;
+                        arena[z, x, i] = (int)BlockData.Wall;
                     }
 
-                    if (arena[(int) loc.z, (int) loc.x, i] == 1)
+
+                    if (arenaTimer[z, x, i] == -1)
                     {
-                         gameReady = false;
-                        StartCoroutine(EndGame(i));
+                        arenaTimer[z, x, i] = 0;
+                        var locations = FindLocationsDFS((PlayerType)i, new Vector3(x, 0, z));
+
+                        foreach (var loc in locations)
+                        {
+                            if (arena[(int)loc.z, (int)loc.x, i] == (int)BlockData.Wall || arena[z, x, i] == (int)BlockData.Wall)
+                            {
+                                SceneObjects[(int)loc.z, (int)loc.x, i].GetComponent<BoxHolder>().naikinti();
+                                arena[(int)loc.z, (int)loc.x, i] = 0;
+                            }
+
+                            if (arena[(int)loc.z, (int)loc.x, i] == 1)
+                            {
+                                gameReady = false;
+                                StartCoroutine(EndGame(i));
+                            }
+                        }
+
+                        Spawner.DetonateBomb(new Vector3(x, 0, z), locations, i == (int)PlayerType.Player2, (PlayerType)i);
+                        arenaTimer[z, x, i] = 0;
                     }
                 }
-                
-                Spawner.DetonateBomb(new Vector3(x, 0, z), locations,i==(int) PlayerType.Player2);
-                arenaTimer[z, x, i] = 0;
-            }
-        }
     }
 
     private IEnumerator EndGame(int i)
@@ -340,7 +341,7 @@ public class GameState : NetworkBehaviour
     private Vector2Int targetPos;
     private bool CanMoveTo(PlayerType p, Vector2Int dir)
     {
-        targetPos = playerPositions[(int) p] + dir;
+        targetPos = playerPositions[(int)p] + dir;
         if (targetPos.y >= 0 && targetPos.y < 8 && targetPos.x >= 0 && targetPos.x < 8)
         {
             return CheckPosition(p, targetPos) == BlockData.Empty;
