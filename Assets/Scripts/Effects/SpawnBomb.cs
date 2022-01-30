@@ -39,13 +39,14 @@ public class SpawnBomb : MonoBehaviour
             SpawnBox(new Vector3(2, 0, 3), 2f, true);
         }
     }
-    public void SpawnBox(Vector3 location, float speed, bool flip=false)
+    public GameObject SpawnBox(Vector3 location, float speed, bool flip=false)
     {
         var rot = Box.transform.rotation.eulerAngles;
-        Instantiate(Box, location, 
-                Quaternion.Euler(rot.x + (flip ? 180f : 0f), rot.y, rot.z))
-            .GetComponent<BoxHolder>()
+        GameObject temp = Instantiate(Box, location,
+                 Quaternion.Euler(rot.x + (flip ? 180f : 0f), rot.y, rot.z));
+            temp.GetComponent<BoxHolder>()
             .AllBoxControl(speed);
+        return temp;
     }
 
 

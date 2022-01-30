@@ -8,25 +8,23 @@ public class GameState : NetworkBehaviour
     int[,,] arenaTimer; //(1,2,3,4) - ticks till wall, (-1,-2,-3,-4) - tick till bomb;
     public GameObject Player1Pref;
     public GameObject Player2Pref;
-    public GameObject BombPref;
-    public GameObject BombWaitPref;
-    public GameObject WallPref;
-    public GameObject WallWaitPref;
 
-    public GameObject Player1Instance,Player2Instance;
+    public SpawnBomb Spawner;
+
+    public GameObject Player1Instance, Player2Instance;
 
     GameObject[,,] SceneObjects;
-   // GameObject[,,] SceneObjectsTimer;
+    // GameObject[,,] SceneObjectsTimer;
 
-   private bool gameReady;
+    private bool gameReady;
 
-   private enum BlockData : int
-   {
-       Empty = 0,
-       Player = 1,
-       Wall = 2,
-   }
-   
+    private enum BlockData : int
+    {
+        Empty = 0,
+        Player = 1,
+        Wall = 2,
+    }
+
     private void Start()
     {
         gameReady = false;
@@ -47,7 +45,7 @@ public class GameState : NetworkBehaviour
     private IEnumerator WaitForPlayersAndStart()
     {
         yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Player").Length == 2);
-        
+
         StartGame();
     }
 
@@ -60,11 +58,11 @@ public class GameState : NetworkBehaviour
         P1 = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Player>();
         P2 = GameObject.FindGameObjectsWithTag("Player")[1].GetComponent<Player>();
 
-        arena[0, 0, 0] = (int) BlockData.Player;
-        arena[7, 7, 1] = (int) BlockData.Player;
-        
+        arena[0, 0, 0] = (int)BlockData.Player;
+        arena[7, 7, 1] = (int)BlockData.Player;
+
         Player1Instance = Instantiate(Player1Pref, new Vector3(0, 0, 0), Quaternion.identity);
-        Player2Instance = Instantiate(Player2Pref, new Vector3(7, 0, 7), Quaternion.Euler(new Vector3(180,0,0)));
+        Player2Instance = Instantiate(Player2Pref, new Vector3(7, 0, 7), Quaternion.Euler(new Vector3(180, 0, 0)));
 
         gameReady = true;
     }
@@ -77,175 +75,183 @@ public class GameState : NetworkBehaviour
         // 2. Handle Player 2 Actions
         // 
         // Can either move or place wall or bomb
-        
-        for (int z = 0; z < 8; z++)
-            for (int x = 0; x < 8; x++)
-        {
-            if (arena[z, x, 0] != (int) BlockData.Player) continue;
-
-            if (P1.ActionId == 1) // A - go left, +Z
-            {
-                if (z < 7 && arena[z + 1, x, 0] != (int) BlockData.Wall)
-                {
-                    arena[z, x, 0] = 0;
-                    arena[z + 1, x, 0] = 1;
-                    P1.ActionId = 0;
-                    Player1Instance.gameObject.transform.Translate(0, 0, 1, Space.World);
-                }
-            }
-
-            if (P1.ActionId == 2) // W - go left, +X
-            {
-                if (x < 7 && arena[z, x + 1, 0] != (int) BlockData.Wall)
-                {
-                    arena[z, x, 0] = 0;
-                    arena[z, x + 1, 0] = 1;
-                    P1.ActionId = 0;
-                    Player1Instance.gameObject.transform.Translate(1, 0, 0, Space.World);
-                }
-            }
-
-            if (P1.ActionId == 3) // D - go left, -Z
-            {
-                if (z > 0 && z - 1 != 2)
-                {
-                    arena[z, x, 0] = 0;
-                    arena[z - 1, x, 0] = 1;
-                    P1.ActionId = 0;
-                    Player1Instance.gameObject.transform.Translate(0, 0, -1, Space.World);
-                }
-            }
-
-            if (P1.ActionId == 4 && x - 1 != 2) // S - go left, -X
-            {
-                if (x > 0)
-                {
-                    arena[z, x, 0] = 0;
-                    arena[z, x - 1, 0] = 1;
-                    P1.ActionId = 0;
-                    Player1Instance.gameObject.transform.Translate(-1, 0, 0, Space.World);
-                }
-            }
-
-            if (P1.ActionId == 5) // Q Build wall
-            {
-                arenaTimer[z, x, 0] = 4;
-                arenaTimer[z, x, 1] = -4;
-
-                Instantiate(WallPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
-                Instantiate(BombPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
-                // instantiate wallWait prefab
-                // instantiate waitBomb prefab
-            }
-
-            if (P1.ActionId == 6) // Q Build wall
-            {
-                Instantiate(BombPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
-                Instantiate(WallPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
-
-                arenaTimer[z, x, 0] = -4;
-                arenaTimer[z, x, 1] = 4;
-
-                // instantiate waitBomb prefab
-                // instantiate wallWait prefab
-            }
-        }
 
         for (int z = 0; z < 8; z++)
             for (int x = 0; x < 8; x++)
-        {
-            if (arena[z, x, 1] == 1) // if player
             {
-                if (P2.ActionId == 1) // A - go left, -X
+                if (arena[z, x, 0] != (int)BlockData.Player) continue;
+
+                if (P1.ActionId == 1) // A - go left, +Z
+                {
+                    if (z < 7 && arena[z + 1, x, 0] != (int)BlockData.Wall)
+                    {
+                        arena[z, x, 0] = 0;
+                        arena[z + 1, x, 0] = 1;
+                        P1.ActionId = 0;
+                        Player1Instance.gameObject.transform.Translate(0, 0, 1, Space.World);
+                    }
+                }
+
+                if (P1.ActionId == 2) // W - go left, +X
+                {
+                    if (x < 7 && arena[z, x + 1, 0] != (int)BlockData.Wall)
+                    {
+                        arena[z, x, 0] = 0;
+                        arena[z, x + 1, 0] = 1;
+                        P1.ActionId = 0;
+                        Player1Instance.gameObject.transform.Translate(1, 0, 0, Space.World);
+                    }
+                }
+
+                if (P1.ActionId == 3) // D - go left, -Z
+                {
+                    if (z > 0 && arena[z - 1, x, 0] != (int)BlockData.Wall)
+                    {
+                        arena[z, x, 0] = 0;
+                        arena[z - 1, x, 0] = 1;
+                        P1.ActionId = 0;
+                        Player1Instance.gameObject.transform.Translate(0, 0, -1, Space.World);
+                    }
+                }
+
+                if (P1.ActionId == 4 && arena[z, x - 1, 0] != (int)BlockData.Wall) // S - go left, -X
                 {
                     if (x > 0)
                     {
-                        Debug.Log("-x");
-                        arena[z, x, 1] = 0;
-                        arena[z, x - 1, 1] = 1;
-                        P2.ActionId = 0;
-                        Player2Instance.gameObject.transform.Translate(-1, 0, 0, Space.World);
-
-
-                    }
-
-                }
-
-                if (P2.ActionId == 2) // W - go left, -Z
-                {
-                    if (z > 0)
-                    {
-                        Debug.Log("-z");
-                        arena[z, x, 1] = 0;
-                        arena[z - 1, x, 1] = 1;
-                        P2.ActionId = 0;
-                        Player2Instance.gameObject.transform.Translate(0, 0, -1, Space.World);
-
-
-                    }
-
-                }
-
-                if (P2.ActionId == 3) // D - go left, +X
-                {
-                    if (x < 7)
-                    {
-                        Debug.Log("+X");
-                        arena[z, x, 1] = 0;
-                        arena[z, x + 1, 1] = 1;
-                        P2.ActionId = 0;
-                        Player2Instance.gameObject.transform.Translate(1, 0, 0, Space.World);
-
-
+                        arena[z, x, 0] = 0;
+                        arena[z, x - 1, 0] = 1;
+                        P1.ActionId = 0;
+                        Player1Instance.gameObject.transform.Translate(-1, 0, 0, Space.World);
                     }
                 }
 
-                if (P2.ActionId == 4) // S - go left, +Z
+                if (P1.ActionId == 5) // Q Build wall
                 {
-                    if (z < 7)
-                    {
-                        Debug.Log("+Z");
-                        arena[z, x, 1] = 0;
-                        arena[z + 1, x, 1] = 1;
-                        P2.ActionId = 0;
-                        Player2Instance.gameObject.transform.Translate(0, 0, 1, Space.World);
+                    arenaTimer[z, x, 0] = 4;
+                    arenaTimer[z, x, 1] = -4;
+                    SceneObjects[z, x, 0] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f);
+                    Spawner.PlantBomb(new Vector3(x, 0, z), 2f, true);
+                    //   Instantiate(WallPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
+                    //   Instantiate(BombPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
+                    // instantiate wallWait prefab
+                    // instantiate waitBomb prefab
+                }
 
+                if (P1.ActionId == 6) // E Build Bomb
+                {
+                    //    Instantiate(BombPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
+                    //    Instantiate(WallPref, new Vector3(x, 0, z), Quaternion.Euler(new Vector3()));
 
-                    }
+                    arenaTimer[z, x, 0] = -4;
+                    arenaTimer[z, x, 1] = 4;
+                    SceneObjects[z, x, 0] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f, true);
+                    Spawner.PlantBomb(new Vector3(x, 0, z), 2f);
+                    // instantiate waitBomb prefab
+                    // instantiate wallWait prefab
                 }
             }
 
-            if (P2.ActionId == 5) // Q Build wall
+        for (int z = 0; z < 8; z++)
+            for (int x = 0; x < 8; x++)
             {
+                if (arena[z, x, 1] == 1) // if player
+                {
+                    if (P2.ActionId == 1) // A - go left, -X
+                    {
+                        if (x > 0 && arena[z, x - 1, 0] != (int)BlockData.Wall)
+                        {
+                            Debug.Log("-x");
+                            arena[z, x, 1] = 0;
+                            arena[z, x - 1, 1] = 1;
+                            P2.ActionId = 0;
+                            Player2Instance.gameObject.transform.Translate(-1, 0, 0, Space.World);
 
 
-                // Debug.Log(Z + " " + X + " " + SceneObjects[Z, X, 0].gameObject.name);
-                arenaTimer[z, x, 0] = 4;
-                arenaTimer[z, x, 1] = -4;
+                        }
 
-                // instantiate wallWait prefab
-                // instantiate waitBomb prefab
+                    }
+
+                    else if (P2.ActionId == 2) // W - go left, -Z
+                    {
+                        if (z > 0 && arena[z - 1, x, 0] != (int)BlockData.Wall)
+                        {
+                            Debug.Log("-z");
+                            arena[z, x, 1] = 0;
+                            arena[z - 1, x, 1] = 1;
+                            P2.ActionId = 0;
+                            Player2Instance.gameObject.transform.Translate(0, 0, -1, Space.World);
+
+
+                        }
+
+                    }
+
+                    else if (P2.ActionId == 3) // D - go left, +X
+                    {
+                        if (x < 7 && arena[z, x + 1, 0] != (int)BlockData.Wall)
+                        {
+                            Debug.Log("+X");
+                            arena[z, x, 1] = 0;
+                            arena[z, x + 1, 1] = 1;
+                            P2.ActionId = 0;
+                            Player2Instance.gameObject.transform.Translate(1, 0, 0, Space.World);
+
+
+                        }
+                    }
+
+                    else if (P2.ActionId == 4) // S - go left, +Z
+                    {
+                        if (z < 7 && arena[z + 1, x, 0] != (int)BlockData.Wall)
+                        {
+                            Debug.Log("+Z");
+                            arena[z, x, 1] = 0;
+                            arena[z + 1, x, 1] = 1;
+                            P2.ActionId = 0;
+                            Player2Instance.gameObject.transform.Translate(0, 0, 1, Space.World);
+
+
+                        }
+                    }
+                    else if (P2.ActionId == 5) // Q Build wall
+                    {
+
+
+                        // Debug.Log(Z + " " + X + " " + SceneObjects[Z, X, 0].gameObject.name);
+                        arenaTimer[z, x, 0] = 4;
+                        arenaTimer[z, x, 1] = -4;
+
+                        SceneObjects[z, x, 1] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f, true);
+                        Spawner.PlantBomb(new Vector3(x, 0, z), 2f,false);
+                        //Spawner.PlantBomb(new Vector3(z, x, -1), 2f);
+                        // instantiate wallWait prefab
+                        // instantiate waitBomb prefab
+
+
+                    }
+
+                    else if (P2.ActionId == 6) // Q Build bomb
+                    {
+
+
+                        arenaTimer[z, x, 0] = -4;
+                        arenaTimer[z, x, 1] = 4;
+                        SceneObjects[z, x, 1] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f, false);
+                        Spawner.PlantBomb(new Vector3(x, 0, z), 2f,true);
+                        //Spawner.PlantBomb(new Vector3(z, x, 0), 2f);
+                        // instantiate waitBomb prefab
+                        // instantiate wallWait prefab
+
+
+
+                    }
+                }
 
 
             }
-
-            if (P2.ActionId == 6) // Q Build bomb
-            {
-
-
-                arenaTimer[z, x, 0] = -4;
-                arenaTimer[z, x, 1] = 4;
-
-                // instantiate waitBomb prefab
-                // instantiate wallWait prefab
-
-
-
-            }
-        }
 
         // Process timer
-        for(int z = 0; z < 8; z++)
+        for (int z = 0; z < 8; z++)
         {
             for (int x = 0; x < 8; x++)
             {
@@ -269,16 +275,20 @@ public class GameState : NetworkBehaviour
                         // change scene to white win
                     }
                     arena[z, x, 1] = 2;
-                    SceneObjects[z, x, 1] = Instantiate(WallPref, new Vector3(x, z, 0), Quaternion.identity);
+
+
+                    //   SceneObjects[z, x, 1] = Instantiate(WallPref, new Vector3(x, z, 0), Quaternion.identity);
+
+
                 }
-                for (int i = 0; i <2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     if (arenaTimer[z, x, i] == -1)
                     {
                         //Instantiate Bomb here, if player here - KILL
                     }
 
-                    if (arenaTimer[z,x,i]>1)
+                    if (arenaTimer[z, x, i] > 1)
                     {
                         arenaTimer[z, x, i]--;
                     }

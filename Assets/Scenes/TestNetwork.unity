@@ -183,6 +183,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2735686746730430767, guid: 6084a514a38a0d540a2acc902bd3c24b, type: 3}
+      propertyPath: WallPref
+      value: 
+      objectReference: {fileID: 5409551335540164641, guid: 08e6f93736ae18f40b6de059c9e449c9, type: 3}
+    - target: {fileID: 2735686746730430767, guid: 6084a514a38a0d540a2acc902bd3c24b, type: 3}
       propertyPath: PlayerPref
       value: 
       objectReference: {fileID: 1071583066927130427, guid: eaf355d995db93d4184a1be8450fda11, type: 3}
