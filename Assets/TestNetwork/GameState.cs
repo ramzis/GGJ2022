@@ -186,6 +186,8 @@ public class GameState : NetworkBehaviour
 
                 break;
             case GameAction.Wall:
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == 2) break;
+                if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] !=0) break;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 4;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = -4;
                 SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 
@@ -193,6 +195,8 @@ public class GameState : NetworkBehaviour
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player1);
                 break;
             case GameAction.Bomb:
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == 2) break;
+                if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = -4;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 4;
                 SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 
@@ -285,13 +289,13 @@ public class GameState : NetworkBehaviour
 
                 foreach (var loc in locations)
                 {
-                    if (arena[(int) loc.z, (int) loc.x, i] == 2)
+                    if (arena[(int) loc.z, (int) loc.x, i] == 2 || arena[z, x, i]==2)
                     {
                         SceneObjects[(int) loc.z, (int) loc.x, i].GetComponent<BoxHolder>().naikinti();
                         arena[(int) loc.z, (int) loc.x, i] = 0;
                     }
 
-                    if (arena[(int) loc.z, (int) loc.x, i] == 1)
+                    if (arena[(int) loc.z, (int) loc.x, i] == 1 || arena[z, x, i] == 1)
                     {
                         SceneManager.LoadScene(i == 1 ? "P1Win" : "P2Win");
                     }
