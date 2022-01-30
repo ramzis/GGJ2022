@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UI;
 
 public class Player : NetworkBehaviour
 {
-    [SyncVar]
-    [SerializeField] string enemy;
-
+    [SyncVar] 
+    public string enemy;
+    [SerializeField] string tmp;
     public int ActionId = 0;
-
+    [SerializeField]
+    List<Text> p;
+    List<GameObject> tmp_p;
     [Client]
     void Start()
     {
@@ -58,37 +61,23 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         }
-        if (NetworkServer.connections.Count == 2)
+        Debug.Log(NetworkServer.connections.Count);
+        if (NetworkServer.connections.Count == 2 && enemy=="")
         {
             Debug.Log("2 players");
             if (PlayerPrefs.HasKey("nick_"))
-                    { send_name(main_ui_control.ins.getNick());
+                    {
+                 
 
                 }
                 else
                 {
-                    send_name("guest");
+               
                 }
         }
     }
-    [Server]
-    public  void OnClientConnect()
-    {
-        Debug.Log("join");
-        
-       
-    }
 
-    [Client]
-    public void send_name(string a)
-    {
-        CmdSyncHP(a);
-    }
-    [Command]
-    void CmdSyncHP(string a)
-    {
-        enemy = a;
-    }
+ 
     [Command]
     void CmdAction(int a)
     {
@@ -99,5 +88,6 @@ public class Player : NetworkBehaviour
     {
         ActionId = a;
     }
+ 
 
 }
