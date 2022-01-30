@@ -23,7 +23,7 @@ public class main_ui_control : MonoBehaviour
      Mirror.Discovery.NetworkDiscovery ndHud;
      
     public List<string> ip_meniu;
-   
+    int ip_sk=0;
     private Scene scene; 
     void Start()
     {
@@ -48,22 +48,28 @@ public class main_ui_control : MonoBehaviour
     public void addIp(Mirror.Discovery.ServerResponse a )
     {
         Debug.Log(a.EndPoint.ToString());
-       // if (ip_meniu.Count == 0)
-       // {
+        if (ip_meniu.Count == 0)
+        {
             ip_meniu.Add(a.EndPoint.ToString());
-      //  }
-       // else
-       // {
-          //  for(int i = 0; i < ip_meniu.Count; i++)
-        //   {
-        //       if(ip_meniu[i]!= a.EndPoint.ToString())
-       //      {
-       //           ip_meniu.Add(a.EndPoint.ToString());
-       //       }
-      //  }
-      //  }
-   //  m_Dropdown.ClearOptions();
-    //  m_Dropdown.AddOptions(ip_meniu);
+            ip_sk++;
+        }
+        else
+        {
+            if (ip_meniu[ip_sk]== a.EndPoint.ToString())
+            {
+                
+            }
+            else
+            {
+            ip_meniu.Add(a.EndPoint.ToString());
+                            ip_sk++;
+            }
+        }
+        if (ip_meniu.Count != 0)
+        {
+            m_Dropdown.ClearOptions();
+            m_Dropdown.AddOptions(ip_meniu);
+        }
     }
     public void open_settings()
     {
@@ -113,12 +119,5 @@ public class main_ui_control : MonoBehaviour
 
         throw new System.Exception("localhost");
     }
-    public void leftClient()
-    {
-        networkManager.StopClient();
-    }
-    public void leftHost()
-    {
-        networkManager.StopHost();
-    }
+ 
 }

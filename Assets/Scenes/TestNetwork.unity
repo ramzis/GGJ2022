@@ -257,7 +257,7 @@ MonoBehaviour:
   DualMode: 1
   NoDelay: 1
   Interval: 10
-  Timeout: 10000
+  Timeout: 5000
   FastResend: 2
   CongestionWindow: 0
   SendWindowSize: 4096
@@ -338,49 +338,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secretHandshake: -9000379069522804149
   serverBroadcastListenPort: 47777
-  enableActiveDiscovery: 0
+  enableActiveDiscovery: 1
   ActiveDiscoveryInterval: 3
   transport: {fileID: 416584464}
   OnServerFound:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 416584467}
-        m_TargetAssemblyTypeName: Mirror.Discovery.NetworkDiscoveryHUD, Mirror.Components
-        m_MethodName: OnDiscoveredServer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8253338891579645584}
-        m_TargetAssemblyTypeName: main_ui_control, Assembly-CSharp
-        m_MethodName: addIp
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 416584468}
-        m_TargetAssemblyTypeName: Mirror.Discovery.NetworkDiscoveryBase`2[[Mirror.Discovery.ServerRequest,
-          Mirror.Components
-        m_MethodName: BroadcastDiscoveryRequest
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1995151530
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +452,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 416584468}
+    - target: {fileID: 5859304909127774410, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5859304909127774410, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 416584468}
+    - target: {fileID: 5859304909127774410, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 416584468}
+    - target: {fileID: 5859304909127774410, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartDiscovery
+      objectReference: {fileID: 0}
+    - target: {fileID: 5859304909127774410, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8245622006483739747, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
       propertyPath: ndHud
       value: 
@@ -587,14 +570,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
---- !u!114 &8253338891579645584 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8245622006483739747, guid: 171d8a38edbdf6a4a9676494abf2c5f2, type: 3}
-  m_PrefabInstance: {fileID: 8253338891579645583}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc5dc3123128824898153dc68af9b95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
