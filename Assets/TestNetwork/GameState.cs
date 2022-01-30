@@ -312,6 +312,7 @@ public class GameState : NetworkBehaviour
 
                     if (arena[(int) loc.z, (int) loc.x, i] == 1)
                     {
+                         gameReady = false;
                         StartCoroutine(EndGame(i));
                     }
                 }
