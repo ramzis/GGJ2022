@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &430937319755462592
+--- !u!1 &7246002667845882305
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7120856352914341439}
-  - component: {fileID: 6222755172075688544}
-  - component: {fileID: 8286821658646828861}
+  - component: {fileID: 390672500150297012}
+  - component: {fileID: 4155981687486512958}
+  - component: {fileID: 1552883294462563684}
   m_Layer: 0
-  m_Name: Sequencer
+  m_Name: PlayerSounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7120856352914341439
+--- !u!4 &390672500150297012
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430937319755462592}
+  m_GameObject: {fileID: 7246002667845882305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5056956, y: 1.4203222, z: -0.12513885}
+  m_LocalPosition: {x: -4.3793054, y: 6.9887714, z: -0.8294173}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &6222755172075688544
+--- !u!82 &4155981687486512958
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430937319755462592}
+  m_GameObject: {fileID: 7246002667845882305}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5737320846169263035, guid: 7b458a635bff9a24ca7594278cadb680, type: 2}
+  OutputAudioMixerGroup: {fileID: -2490048504317062957, guid: 7b458a635bff9a24ca7594278cadb680, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -128,34 +128,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8286821658646828861
+--- !u!114 &1552883294462563684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430937319755462592}
+  m_GameObject: {fileID: 7246002667845882305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cd4e3983afbe74ca29f5efda467232, type: 3}
+  m_Script: {fileID: 11500000, guid: 9fc4ade49cf3fc547a65d4ed9be5307c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardSize: 8
-  sequencerSource: {fileID: 6222755172075688544}
-  rhythm1: {fileID: 8300000, guid: e9b3fcea3c077c642930245fe279af3a, type: 3}
-  rhythm2: {fileID: 8300000, guid: 5a6371d2fd7819044a54d616cb4012a7, type: 3}
-  rhythm3: {fileID: 8300000, guid: 8a05bdf876be4404e8b6fa10fbcf56f6, type: 3}
-  rhythm4: {fileID: 8300000, guid: 5d52247f6215c824aacd3b5f80246d8e, type: 3}
-  rhythm5: {fileID: 8300000, guid: 9fce0dce62da73d4abecc11bbbde13f7, type: 3}
-  rhythm6: {fileID: 8300000, guid: 0e9f0b0593be78c41b20776c392b5924, type: 3}
-  rhythm7: {fileID: 8300000, guid: 18d883344f1b8e74e88873197e93d301, type: 3}
-  rhythm8: {fileID: 8300000, guid: 30dc00d85f890404987011025d909a50, type: 3}
-  melody1: {fileID: 8300000, guid: a6725d5a661cf9e48ae588ae58eb29f2, type: 3}
-  melody2: {fileID: 8300000, guid: 28b791978ebde8e4783640b151579ff4, type: 3}
-  melody3: {fileID: 8300000, guid: 130c7b6f966618342b4b4e398f7ec715, type: 3}
-  melody4: {fileID: 8300000, guid: 9fdfa15a597976d4aba4866d2bedc4ae, type: 3}
-  melody5: {fileID: 8300000, guid: ceab1f6a755a3ce418d312657d662156, type: 3}
-  melody6: {fileID: 8300000, guid: 48e0ad49ef95f36498050fd8461deb7a, type: 3}
-  melody7: {fileID: 8300000, guid: 610c61113b96b924aa688529c3475e47, type: 3}
-  melody8: {fileID: 8300000, guid: 3a122f7dc810fb4469d0d84381563ee6, type: 3}
-  beatPosition: 0
+  move1: {fileID: 8300000, guid: 2700556337c41d247a220fe2e87b3995, type: 3}
+  move2: {fileID: 8300000, guid: dbd76400b6ff40744b49e55bd9b867f6, type: 3}
+  move3: {fileID: 8300000, guid: 35c778b8d8ce02d44ab4f7588d94894d, type: 3}
+  move4: {fileID: 8300000, guid: 92abcbd030445f24cba7f4f5dbe7c417, type: 3}
+  move5: {fileID: 8300000, guid: 7c25e2d4e56ddd941852ad00565482fd, type: 3}
+  move6: {fileID: 8300000, guid: 6a1e7d2784efa364d9d0a543ecf6d72f, type: 3}
+  move7: {fileID: 8300000, guid: 4522caed6b5dcb4408f722a5f0b0bb02, type: 3}
+  move8: {fileID: 8300000, guid: 63d588b2e0ee2524882cecb230baabdb, type: 3}
+  placeBomb: {fileID: 8300000, guid: 03d10fea77e752f4c9ea00c73039001c, type: 3}
+  placeTile: {fileID: 8300000, guid: 8ed424b8c9a0de24f913a0b0fa52c5fc, type: 3}

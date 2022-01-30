@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class PlayerSounds : MonoBehaviour
 {
-
-    [SerializeField]
-    private AudioClip moveImmediateResponseP1;
-    [SerializeField]
-    private AudioClip moveImmediateResponseP2;
-
     [SerializeField]
     private AudioClip move1;
     [SerializeField]
@@ -26,6 +20,12 @@ public class PlayerSounds : MonoBehaviour
     private AudioClip move7;
     [SerializeField]
     private AudioClip move8;
+
+    [SerializeField]
+    private AudioClip placeBomb;
+
+    [SerializeField]
+    private AudioClip placeTile;
 
     private AudioClip nextTrigger;
     private AudioSource audioSource;
@@ -51,7 +51,6 @@ public class PlayerSounds : MonoBehaviour
     {
         if (playerId == 0)
         {
-            audioSource.PlayOneShot(moveImmediateResponseP1);
             if (direction == 0)
                 nextTrigger = move1;
             if (direction == 1)
@@ -63,7 +62,6 @@ public class PlayerSounds : MonoBehaviour
         }
         if (playerId == 1)
         {
-            audioSource.PlayOneShot(moveImmediateResponseP2);
             if (direction == 0)
                 nextTrigger = move5;
             if (direction == 1)
@@ -73,6 +71,16 @@ public class PlayerSounds : MonoBehaviour
             if (direction == 3)
                 nextTrigger = move8;
         }
+    }
+
+    public void BombSound()
+    {
+        nextTrigger = placeBomb;
+    }
+
+    public void TileSound()
+    {
+        nextTrigger = placeTile;
     }
 
 }
