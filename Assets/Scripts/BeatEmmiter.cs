@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BeatEmmiter : MonoBehaviour
 {
-    private int beatsPerMinute = 110;
+    private int beatsPerMinute = 90;
     private float beatDelay;
 
     public static event Action OnBeat;
