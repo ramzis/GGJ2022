@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using Random = System.Random;
 
 public class GameState : NetworkBehaviour
 {
@@ -19,6 +20,9 @@ public class GameState : NetworkBehaviour
 
     GameObject[,,] SceneObjects;
     // GameObject[,,] SceneObjectsTimer;
+
+    [SerializeField]
+    private AudioSequencer audio;
 
     private List<Vector2Int> playerPositions;
 
@@ -93,6 +97,8 @@ public class GameState : NetworkBehaviour
         Player2Instance = Instantiate(Player2Pref, new Vector3(7, 0, 7), Quaternion.Euler(new Vector3(180, 0, 0)));
 
         gameReady = true;
+        
+        audio.CreateTileBoardRhythm(0,0);
     }
 
     private void SetPlayerPosition(PlayerType p, Vector2Int pos)
@@ -188,20 +194,22 @@ public class GameState : NetworkBehaviour
             case GameAction.Wall:
                 if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
                 if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 4;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = -4;
+                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 5;
+                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = -5;
                 SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 
                     Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player2);
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player1);
+                audio.CreateTileBoardRhythm(playerPositions[(int) p].y, playerPositions[(int) p].x);
                 break;
             case GameAction.Bomb:
                 if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
                 if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = -4;
-                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 4;
+                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = -5;
+                arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 5;
                 SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 
                     Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player1);
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player2);
+                StartCoroutine(StartShortMelody(playerPositions[(int) p].y, playerPositions[(int) p].x));
                 break;
             default:
                 Debug.Log(actionToCheck);
@@ -217,6 +225,13 @@ public class GameState : NetworkBehaviour
                 P2.ActionId = (int) GameAction.Still;
                 break;
         }
+    }
+
+    private IEnumerator StartShortMelody(int x, int y)
+    {
+        audio.CreateTileBoardMelody(x, y);
+        yield return new WaitForSeconds(5f);
+        audio.DestroyTileBoardMelody(x, y);
     }
 
     private List<(Vector3, Vector3Int)> GetNeighbors(PlayerType p, (Vector3, Vector3Int) pop)
