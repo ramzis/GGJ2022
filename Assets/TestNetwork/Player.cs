@@ -62,16 +62,16 @@ public class Player : NetworkBehaviour
         } 
         if (NetworkServer.connections.Count == 2)
         {
-            if (!isLocalPlayer) return;
+            if (!isServer) return;
 
             if (PlayerPrefs.HasKey("nick_"))
                     {
-                Cmdstring(PlayerPrefs.GetString("nick_"));
+                Rpcstring(PlayerPrefs.GetString("nick_"));
 
                 }
                 else
                 {
-                Cmdstring("guest");
+                Rpcstring("guest");
             }
         }
     }
@@ -80,12 +80,12 @@ public class Player : NetworkBehaviour
     void Cmdstring(string a)
     {
         //Rpcstring(a);
-        MyNick = a;
+     
     }
-    [ClientRpc]
-    void Rpcstring(string a)
+    [ClientRpc(includeOwner = false)]
+       void Rpcstring(string a)
     {
-    
+       MyNick = a;
     }
     [Command]
     void CmdAction(int a)
