@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour
 {
-    [SyncVar] 
+    
     public string enemy;
     [SerializeField] string tmp;
     public int ActionId = 0;
@@ -60,24 +60,31 @@ public class Player : NetworkBehaviour
         else if (Input.GetKeyDown(KeyCode.W))
         {
             CmdAction(2);
-        }
-        //Debug.Log(NetworkServer.connections.Count);
+        } 
         if (NetworkServer.connections.Count == 2 && enemy=="")
-        {
-            //Debug.Log("2 players");
+        { 
             if (PlayerPrefs.HasKey("nick_"))
                     {
-                 
+                Cmdstring(PlayerPrefs.GetString("nick_"));
 
                 }
                 else
                 {
-               
-                }
+                Cmdstring("guest");
+            }
         }
     }
 
- 
+    [Command]
+    void Cmdstring(string a)
+    {
+        Rpcstring(a);
+    }
+    [ClientRpc]
+    void Rpcstring(string a)
+    {
+        enemy = a;
+    }
     [Command]
     void CmdAction(int a)
     {
