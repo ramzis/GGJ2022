@@ -229,7 +229,6 @@ public class GameState : NetworkBehaviour
     }
 
     private (Vector3, Vector3Int) pop;
-
     private List<Vector3> FindLocationsDFS(PlayerType p, Vector3 start)
     {
         var results = new List<Vector3>();
