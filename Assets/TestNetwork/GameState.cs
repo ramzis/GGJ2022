@@ -312,7 +312,7 @@ public class GameState : NetworkBehaviour
 
                     if (arena[(int) loc.z, (int) loc.x, i] == 1)
                     {
-                        SceneManager.LoadScene(i == 1 ? "P1Win" : "P2Win");
+                        StartCoroutine(EndGame(i));
                     }
                 }
                 
@@ -320,6 +320,12 @@ public class GameState : NetworkBehaviour
                 arenaTimer[z, x, i] = 0;
             }
         }
+    }
+
+    private IEnumerator EndGame(int i)
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(i == 1 ? "P1Win" : "P2Win");
     }
 
     private Vector2Int targetPos;
