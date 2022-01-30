@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 public class GameState : NetworkBehaviour
@@ -281,12 +282,94 @@ public class GameState : NetworkBehaviour
 
 
                 }
+
+                if (arenaTimer[z, x, 0] == -1)
+                {
+                    //Instantiate Bomb here, if player here - KILL
+                    List<Vector3> locs = new List<Vector3>();
+                    Vector3 north = new Vector3(x, 0, 7);
+                    Vector3 south = new Vector3(x, 0, 0);
+                    Vector3 west = new Vector3(0, 0, z);
+                    Vector3 east = new Vector3(7, 0, z);
+                    for (int i = z; i < 8; i++)
+                    {
+                        if(arena[i,x,0]== (int)BlockData.Wall || arena[i, x, 0] == (int)BlockData.Player)
+                        {
+                            north.z = i;
+                            if(arena[i, x, 0] == (int)BlockData.Wall)
+                            {
+                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
+                                arena[i, x, 0] = (int)BlockData.Empty;
+                            }
+                            else
+                            {
+                                // P1 lose screen;
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = z; i >= 0; i--)
+                    {
+                        if (arena[i, x, 0] == (int)BlockData.Wall || arena[i, x, 0] == (int)BlockData.Player)
+                        {
+                            south.z = i;
+                            if (arena[i, x, 0] == (int)BlockData.Wall)
+                            {
+                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
+                                arena[i, x, 0] = (int)BlockData.Empty;
+                            }
+                            else
+                            {
+                                // P1 lose screen;
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = x; i < 8; i++)
+                    {
+                        if (arena[z, i, 0] == (int)BlockData.Wall || arena[z, i, 0] == (int)BlockData.Player)
+                        {
+                            east.z = i;
+                            if (arena[z, i, 0] == (int)BlockData.Wall)
+                            {
+                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
+                                arena[z, i, 0] = (int)BlockData.Empty;
+                            }
+                            else
+                            {
+                                // P1 lose screen;
+                            }
+                            break;
+                        }
+                    }
+                    for (int i = x; i >= 0; i--)
+                    {
+                        if (arena[z, i, 0] == (int)BlockData.Wall || arena[z, i, 0] == (int)BlockData.Player)
+                        {
+                            west.z = i;
+                            if (arena[z, i, 0] == (int)BlockData.Wall)
+                            {
+                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
+                                arena[z, i, 0] = (int)BlockData.Empty;
+                            }
+                            else
+                            {
+                                // P1 lose screen;
+                            }
+                            break;
+                        }
+                    }
+                    locs.Add(north);
+                    locs.Add(south);
+                    locs.Add(west);
+                    locs.Add(east);
+                    Spawner.DetonateBomb(new Vector3(x, 0, z),locs);
+                    arenaTimer[z, x, 0] = 0;
+                }
+
                 for (int i = 0; i < 2; i++)
                 {
-                    if (arenaTimer[z, x, i] == -1)
-                    {
-                        //Instantiate Bomb here, if player here - KILL
-                    }
+  
 
                     if (arenaTimer[z, x, i] > 1)
                     {
