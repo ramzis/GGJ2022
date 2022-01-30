@@ -24,7 +24,7 @@ public class in_game_control : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "Main") return;
 
-        if (ui_setting[1].activeSelf || ui_setting[0].activeSelf) return;
+        if (ui_setting[1].activeSelf || ui_setting[0].activeSelf || ui_setting[2].activeSelf) return;
         
         switch (networkManager.mode.ToString())
         {
@@ -34,6 +34,10 @@ public class in_game_control : MonoBehaviour
                 break;
             case "ClientOnly":
                 ui_setting[0].SetActive(true);
+                Debug.Log(networkManager.mode);
+                break;
+            case "ServerOnly":
+                ui_setting[2].SetActive(true);
                 Debug.Log(networkManager.mode);
                 break;
             default:
@@ -48,5 +52,9 @@ public class in_game_control : MonoBehaviour
     public void LeftClient()
     {
        networkManager.StopClient();
+    }
+    public void stopServer()
+    {
+        networkManager.StopHost();
     }
 }
