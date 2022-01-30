@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     
-    public string enemy;
-    [SerializeField] string tmp;
+    public string MyNick;
     public int ActionId = 0;
     [SerializeField]
     List<Text> p;
@@ -61,7 +60,7 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         } 
-        if (NetworkServer.connections.Count == 2 && enemy=="")
+        if (NetworkServer.connections.Count == 2 && MyNick=="")
         { 
             if (PlayerPrefs.HasKey("nick_"))
                     {
@@ -83,7 +82,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     void Rpcstring(string a)
     {
-        enemy = a;
+        MyNick = a;
     }
     [Command]
     void CmdAction(int a)

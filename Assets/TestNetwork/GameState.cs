@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class GameState : NetworkBehaviour
@@ -15,6 +16,8 @@ public class GameState : NetworkBehaviour
     public GameObject Player2Pref;
     public Camera mainCam;
     public SpawnBomb Spawner;
+    public Text P1Name;
+    public Text P2Name;
 
     public GameObject Player1Instance, Player2Instance;
 
@@ -85,6 +88,9 @@ public class GameState : NetworkBehaviour
 
         P1 = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Player>();
         P2 = GameObject.FindGameObjectsWithTag("Player")[1].GetComponent<Player>();
+
+        P1Name.text = P1.MyNick;
+        P2Name.text = P2.MyNick;
 
         playerPositions.Clear();
         playerPositions.Add(new Vector2Int(0, 0));
