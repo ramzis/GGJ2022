@@ -26,6 +26,8 @@ public class GameState : NetworkBehaviour
 
     [SerializeField]
     private AudioSequencer audio;
+    [SerializeField]
+    private PlayerSounds playerSounds;
 
     private List<Vector2Int> playerPositions;
 
@@ -208,6 +210,7 @@ public class GameState : NetworkBehaviour
                 Spawner.PlantBomb(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
                 audio.CreateTileBoardRhythm(playerPositions[(int)p].y, playerPositions[(int)p].x);
                 mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
+                playerSounds.TileSound();
                 break;
             case GameAction.Bomb:
                 if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int)BlockData.Wall) break;
@@ -327,6 +330,7 @@ public class GameState : NetworkBehaviour
                         }
 
                         Spawner.DetonateBomb(new Vector3(x, 0, z), locations, i == (int)PlayerType.Player2, (PlayerType)i);
+                        playerSounds.BombSound();
                         arenaTimer[z, x, i] = 0;
                     }
                 }
