@@ -54,6 +54,9 @@ public class AudioSequencer : MonoBehaviour
     {
         boardRhythm = new bool[boardSize, boardSize];
         boardMelody = new bool[boardSize, boardSize];
+
+        boardRhythm[0, 0] = true;
+        boardRhythm[4, 4] = true;
     }
 
     // Start is called before the first frame update
