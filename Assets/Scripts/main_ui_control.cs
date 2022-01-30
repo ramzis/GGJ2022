@@ -11,7 +11,8 @@ public class main_ui_control : MonoBehaviour
     [SerializeField]
     GameObject start_, change_, settings_, credits_;
     public Text nick_holder;
-    public InputField ip_holder; 
+    public InputField ip_holder;
+    public Dropdown m_Dropdown;
     [SerializeField]
     string  enemy,ip_address; 
     [SerializeField] private string nick_txt;
@@ -46,7 +47,23 @@ public class main_ui_control : MonoBehaviour
     }
     public void addIp(Mirror.Discovery.ServerResponse a )
     {
-        ip_meniu.Add(a.EndPoint.ToString());
+
+        if (ip_meniu.Count == 0)
+        {
+            ip_meniu.Add(a.EndPoint.ToString());
+        }
+        else
+        {
+          //  for(int i = 0; i < ip_meniu.Count; i++)
+          //  {
+              //  if(ip_meniu[i]!= a.EndPoint.ToString())
+              //  {
+              //      ip_meniu.Add(a.EndPoint.ToString());
+             //   }
+          //  }
+        }
+        //m_Dropdown.ClearOptions();
+      //  m_Dropdown.AddOptions(ip_meniu);
     }
     public void open_settings()
     {

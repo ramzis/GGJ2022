@@ -11,8 +11,7 @@ namespace Mirror.Discovery
     {
         readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
         Vector2 scrollViewPos = Vector2.zero;
-
-        public UnityEngine.GameObject link_meniu;
+         
         public NetworkDiscovery networkDiscovery;
 
 #if UNITY_EDITOR
@@ -76,9 +75,7 @@ namespace Mirror.Discovery
             scrollViewPos = GUILayout.BeginScrollView(scrollViewPos);
              
             foreach (ServerResponse info in discoveredServers.Values)
-                if (GUILayout.Button(info.EndPoint.Address.ToString()))
-                 //  link_meniu.GetComponent<main_ui_control>().ip_meniu.Add(info.EndPoint.Address.ToString());
-                    //System.Debug.Log(info.EndPoint.Address.ToString());
+                if (GUILayout.Button(info.EndPoint.Address.ToString())) 
                       Connect(info);
 
             GUILayout.EndScrollView();
