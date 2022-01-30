@@ -158,7 +158,7 @@ public class GameState : NetworkBehaviour
                 {
                     if (P2.ActionId == 1) // A - go left, -X
                     {
-                        if (x > 0 && arena[z, x - 1, 0] != (int)BlockData.Wall)
+                        if (x > 0 && arena[z, x - 1, 1] != (int)BlockData.Wall)
                         {
                             Debug.Log("-x");
                             arena[z, x, 1] = 0;
@@ -173,7 +173,7 @@ public class GameState : NetworkBehaviour
 
                     else if (P2.ActionId == 2) // W - go left, -Z
                     {
-                        if (z > 0 && arena[z - 1, x, 0] != (int)BlockData.Wall)
+                        if (z > 0 && arena[z - 1, x, 1] != (int)BlockData.Wall)
                         {
                             Debug.Log("-z");
                             arena[z, x, 1] = 0;
@@ -188,7 +188,7 @@ public class GameState : NetworkBehaviour
 
                     else if (P2.ActionId == 3) // D - go left, +X
                     {
-                        if (x < 7 && arena[z, x + 1, 0] != (int)BlockData.Wall)
+                        if (x < 7 && arena[z, x + 1, 1] != (int)BlockData.Wall)
                         {
                             Debug.Log("+X");
                             arena[z, x, 1] = 0;
@@ -202,7 +202,7 @@ public class GameState : NetworkBehaviour
 
                     else if (P2.ActionId == 4) // S - go left, +Z
                     {
-                        if (z < 7 && arena[z + 1, x, 0] != (int)BlockData.Wall)
+                        if (z < 7 && arena[z + 1, x, 1] != (int)BlockData.Wall)
                         {
                             Debug.Log("+Z");
                             arena[z, x, 1] = 0;
@@ -218,8 +218,8 @@ public class GameState : NetworkBehaviour
 
 
                         // Debug.Log(Z + " " + X + " " + SceneObjects[Z, X, 0].gameObject.name);
-                        arenaTimer[z, x, 0] = 4;
-                        arenaTimer[z, x, 1] = -4;
+                        arenaTimer[z, x, 0] = -4;
+                        arenaTimer[z, x, 1] = 4;
 
                         SceneObjects[z, x, 1] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f, true);
                         Spawner.PlantBomb(new Vector3(x, 0, z), 2f,false);
@@ -234,10 +234,10 @@ public class GameState : NetworkBehaviour
                     {
 
 
-                        arenaTimer[z, x, 0] = -4;
-                        arenaTimer[z, x, 1] = 4;
+                        arenaTimer[z, x, 0] = 4;
+                        arenaTimer[z, x, 1] = -4;
                         SceneObjects[z, x, 1] = Spawner.SpawnBox(new Vector3(x, 0, z), 2f, false);
-                        Spawner.PlantBomb(new Vector3(x, 0, z), 2f,true);
+                        Spawner.PlantBomb(new Vector3(x, 0, z), 2f);
                         //Spawner.PlantBomb(new Vector3(z, x, 0), 2f);
                         // instantiate waitBomb prefab
                         // instantiate wallWait prefab
