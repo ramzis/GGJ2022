@@ -64,7 +64,8 @@ public class AudioSequencer : MonoBehaviour
 
     private void TriggerAudio()
     {
-
+        if (sequencerSource == null)
+            return;
         if (rhythm1 == null || rhythm2 == null || rhythm3 == null || rhythm4 == null || rhythm5 == null || rhythm6 == null || rhythm7 == null || rhythm8 == null ||
             melody1 == null || melody2 == null || melody3 == null || melody4 == null || melody5 == null || melody6 == null || melody7 == null || melody8 == null) return;
 
