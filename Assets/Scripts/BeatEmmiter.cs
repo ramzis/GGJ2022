@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
 public class BeatEmmiter : MonoBehaviour
@@ -17,9 +18,15 @@ public class BeatEmmiter : MonoBehaviour
         StartCoroutine(nameof(FastBeat));
     }
 
-    private IEnumerator Beat() {
-        while(true) {
-            yield return new WaitForSeconds(beatDelay);
+    private double netTime, wait;
+    private IEnumerator Beat()
+    {
+        while (true)
+        {
+            netTime = NetworkTime.time;
+            wait = Math.Ceiling(NetworkTime.time * 2) / 2 - netTime;
+            yield return new WaitForSeconds((float) wait);
+            //Debug.Log(NetworkTime.time);
             OnBeat?.Invoke();
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
-
+using UnityEngine; 
+using System.Collections;
 namespace Mirror.Discovery
 {
     [DisallowMultipleComponent]
-    [AddComponentMenu("Network/NetworkDiscoveryHUD")]
+    [AddComponentMenu("Network/Network Discovery HUD")]
     [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-discovery")]
     [RequireComponent(typeof(NetworkDiscovery))]
     public class NetworkDiscoveryHUD : MonoBehaviour
@@ -12,6 +12,7 @@ namespace Mirror.Discovery
         readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
         Vector2 scrollViewPos = Vector2.zero;
 
+        public UnityEngine.GameObject link_meniu;
         public NetworkDiscovery networkDiscovery;
 
 #if UNITY_EDITOR
@@ -73,10 +74,12 @@ namespace Mirror.Discovery
 
             // servers
             scrollViewPos = GUILayout.BeginScrollView(scrollViewPos);
-
+             
             foreach (ServerResponse info in discoveredServers.Values)
                 if (GUILayout.Button(info.EndPoint.Address.ToString()))
-                    Connect(info);
+                 //  link_meniu.GetComponent<main_ui_control>().ip_meniu.Add(info.EndPoint.Address.ToString());
+                    //System.Debug.Log(info.EndPoint.Address.ToString());
+                      Connect(info);
 
             GUILayout.EndScrollView();
             GUILayout.EndArea();
