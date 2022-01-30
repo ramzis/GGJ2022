@@ -35,7 +35,7 @@ public class GameState : NetworkBehaviour
         Wall = 2,
     }
 
-    private enum PlayerType : int
+    public enum PlayerType : int
     {
         Player1,
         Player2

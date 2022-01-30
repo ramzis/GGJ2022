@@ -890,8 +890,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombPrefab: {fileID: 1712411271461651450, guid: f463bf75820e74e068424244802c3804, type: 3}
+  darkBombPrefab: {fileID: 1712411271461651450, guid: e450bc4c0c5a36f40b4f41ea586c15eb, type: 3}
   firePrefab: {fileID: 1509819068412738535, guid: 9fcd5b9acb57b41a5908c013916e3ae5, type: 3}
+  darkFirePrefab: {fileID: 1509819068412738535, guid: 87fe93c29f2d9454aac829d0b7a4e47a, type: 3}
   Box: {fileID: 5409551335540164641, guid: 08e6f93736ae18f40b6de059c9e449c9, type: 3}
+  darkBox: {fileID: 5409551335540164641, guid: e790106430096fe4ca73cebf0201c4b4, type: 3}
 --- !u!4 &2134762579
 Transform:
   m_ObjectHideFlags: 0
