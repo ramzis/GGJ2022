@@ -22,6 +22,7 @@ public class SpawnBomb : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.X))
         {
             PlantBomb(new Vector3(3, 0, 3), 1f, true);
@@ -38,6 +39,7 @@ public class SpawnBomb : MonoBehaviour
         {
             SpawnBox(new Vector3(2, 0, 3), 2f, true);
         }
+#endif
     }
     public GameObject SpawnBox(Vector3 location, float speed, bool flip=false)
     {

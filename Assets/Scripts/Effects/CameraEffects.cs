@@ -21,7 +21,7 @@ public class CameraEffects : MonoBehaviour
     private void Update()
     {
         // Random glitches
-        analog.colorDrift = Mathf.Lerp(analog.colorDrift, Random.value > 0.9f ? Random.value * 0.7f + 0.2f : 0f, Time.deltaTime * 10f);
+        analog.colorDrift = Mathf.Lerp(analog.colorDrift, Random.value > 0.99f ? Random.value * 0.3f + 0.2f : 0f, Time.deltaTime * 10f);
         
         // Shake effect
         if (shaking)
