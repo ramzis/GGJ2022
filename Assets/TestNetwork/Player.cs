@@ -61,10 +61,10 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         }
-        Debug.Log(NetworkServer.connections.Count);
+        //Debug.Log(NetworkServer.connections.Count);
         if (NetworkServer.connections.Count == 2 && enemy=="")
         {
-            Debug.Log("2 players");
+            //Debug.Log("2 players");
             if (PlayerPrefs.HasKey("nick_"))
                     {
                  
