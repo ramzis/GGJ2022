@@ -57,11 +57,20 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         }
-        
+
     }
+    [Client]
     void OnClientConnect()
     {
-        send_name(main_ui_control.ins.getNick());
+        if (PlayerPrefs.HasKey("nick_"))
+            { send_name(main_ui_control.ins.getNick());
+
+        }
+        else
+        {
+            send_name("guest");
+        }
+       
     }
 
     [Client]
