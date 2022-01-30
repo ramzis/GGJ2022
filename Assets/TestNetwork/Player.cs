@@ -32,6 +32,7 @@ public class Player : NetworkBehaviour
     [Client]
     void Update()
     {
+        
         if (!hasAuthority) return;
         if (Input.GetKeyDown(KeyCode.Q)) // build wall
         {
@@ -57,19 +58,24 @@ public class Player : NetworkBehaviour
         {
             CmdAction(2);
         }
-
-    }
-    [Client]
-    void OnClientConnect()
-    {
-        if (PlayerPrefs.HasKey("nick_"))
-            { send_name(main_ui_control.ins.getNick());
-
-        }
-        else
+        if (NetworkServer.connections.Count == 2)
         {
-            send_name("guest");
+            Debug.Log("2 players");
+            if (PlayerPrefs.HasKey("nick_"))
+                    { send_name(main_ui_control.ins.getNick());
+
+                }
+                else
+                {
+                    send_name("guest");
+                }
         }
+    }
+    [Server]
+    public  void OnClientConnect()
+    {
+        Debug.Log("join");
+        
        
     }
 
