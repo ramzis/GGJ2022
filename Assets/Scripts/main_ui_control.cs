@@ -47,23 +47,23 @@ public class main_ui_control : MonoBehaviour
     }
     public void addIp(Mirror.Discovery.ServerResponse a )
     {
-
-        if (ip_meniu.Count == 0)
-        {
+        Debug.Log(a.EndPoint.ToString());
+       // if (ip_meniu.Count == 0)
+       // {
             ip_meniu.Add(a.EndPoint.ToString());
-        }
-        else
-        {
+      //  }
+       // else
+       // {
           //  for(int i = 0; i < ip_meniu.Count; i++)
-          //  {
-              //  if(ip_meniu[i]!= a.EndPoint.ToString())
-              //  {
-              //      ip_meniu.Add(a.EndPoint.ToString());
-             //   }
-          //  }
-        }
-        //m_Dropdown.ClearOptions();
-      //  m_Dropdown.AddOptions(ip_meniu);
+        //   {
+        //       if(ip_meniu[i]!= a.EndPoint.ToString())
+       //      {
+       //           ip_meniu.Add(a.EndPoint.ToString());
+       //       }
+      //  }
+      //  }
+   //  m_Dropdown.ClearOptions();
+    //  m_Dropdown.AddOptions(ip_meniu);
     }
     public void open_settings()
     {
@@ -112,5 +112,13 @@ public class main_ui_control : MonoBehaviour
         }
 
         throw new System.Exception("localhost");
+    }
+    public void leftClient()
+    {
+        networkManager.StopClient();
+    }
+    public void leftHost()
+    {
+        networkManager.StopHost();
     }
 }
