@@ -99,6 +99,7 @@ public class main_ui_control : MonoBehaviour
     {
         networkManager.networkAddress = ip_address;
         networkManager.StartClient();
+        PlayerPrefs.SetString("rest", ip_address);
     }
     public void exsit()
     {
@@ -119,5 +120,9 @@ public class main_ui_control : MonoBehaviour
 
         throw new System.Exception("localhost");
     }
- 
+    public void recent()
+    {
+        networkManager.networkAddress = PlayerPrefs.GetString("rest");
+        networkManager.StartClient();
+    }
 }
