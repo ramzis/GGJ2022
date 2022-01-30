@@ -14,21 +14,20 @@ public class App : MonoBehaviour
         {
             Debug.Log("Beat!");
         };
-        Component[] components = sequencer.GetComponents(typeof(Component));
-        foreach (Component component in components)
-        {
-            Debug.Log(component.ToString());
-        }
         AudioSequencer audioSequencer = sequencer.GetComponent<AudioSequencer>();
-        Debug.Log(audioSequencer.beatPosition);
 
-        audioSequencer.CreateTileBoardRhythm(0, 0);
-        audioSequencer.CreateTileBoardRhythm(4, 4);
-        audioSequencer.CreateTileBoardMelody(0, 0);
-        audioSequencer.CreateTileBoardMelody(3, 2);
-        audioSequencer.CreateTileBoardMelody(4, 6);
-        audioSequencer.CreateTileBoardMelody(2, 1);
-        audioSequencer.CreateTileBoardMelody(2, 1);
-        audioSequencer.CreateTileBoardMelody(3, 4);
+
+        for (int i = 0; i < 8; i++)
+        {
+            int randomx1 = UnityEngine.Random.Range(0, 8);
+            int randomy1 = UnityEngine.Random.Range(0, 8);
+
+            int randomx2 = UnityEngine.Random.Range(0, 8);
+            int randomy2 = UnityEngine.Random.Range(0, 8);
+
+            audioSequencer.CreateTileBoardRhythm(randomx1, randomy1);
+            
+            audioSequencer.CreateTileBoardMelody(randomx2, randomy2);
+        }
     }
 }

@@ -59,15 +59,11 @@ public class AudioSequencer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Fast beat");
         BeatEmmiter.OnFastBeat += TriggerAudio;
     }
 
     private void TriggerAudio()
     {
-
-        Debug.Log("Trigger");
-
 
         if (boardRhythm[0, beatPosition])
         {
@@ -111,42 +107,42 @@ public class AudioSequencer : MonoBehaviour
 
         if (boardMelody[0, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody1);
+            sequencerSource.PlayOneShot(melody1, 0.5f);
         }
 
         if (boardMelody[1, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody2);
+            sequencerSource.PlayOneShot(melody2, 0.5f);
         }
 
         if (boardMelody[2, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody3);
+            sequencerSource.PlayOneShot(melody3, 0.5f);
         }
 
         if (boardMelody[3, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody4);
+            sequencerSource.PlayOneShot(melody4, 0.5f);
         }
 
         if (boardMelody[4, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody5);
+            sequencerSource.PlayOneShot(melody5, 0.5f);
         }
 
         if (boardMelody[5, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody6);
+            sequencerSource.PlayOneShot(melody6, 0.5f);
         }
 
         if (boardMelody[6, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody7);
+            sequencerSource.PlayOneShot(melody7, 0.5f);
         }
 
         if (boardMelody[7, beatPosition])
         {
-            sequencerSource.PlayOneShot(melody8);
+            sequencerSource.PlayOneShot(melody8, 0.5f);
         }
 
         beatPosition = (beatPosition + 1) % boardSize;
