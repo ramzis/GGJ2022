@@ -17,48 +17,55 @@ public class SpawnBomb : MonoBehaviour
         public Vector3 Start;
         // NORTH SOUTH WEST EAST
         public List<Vector3> Ends;
+        public bool Flip;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            PlantBomb(new Vector3(3, 0, 3), 1f);
+            PlantBomb(new Vector3(3, 0, 3), 1f, true);
             DetonateBomb(new Vector3(3, 0, 3), new List<Vector3>()
                 {
                     new Vector3(3, 0, 8),
                     new Vector3(3, 0, -2),
                     new Vector3(8, 0, 3),
                     new Vector3(-2, 0, 3),
-                }
+                }, true
             );
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            SpawnBox(new Vector3(2, 0, 3), 2f);
+            SpawnBox(new Vector3(2, 0, 3), 2f, true);
         }
     }
-    public void SpawnBox(Vector3 location, float speed)
+    public void SpawnBox(Vector3 location, float speed, bool flip=false)
     {
-        Instantiate(Box, new Vector3(3, 0, 3), Box.transform.rotation)
+        var rot = Box.transform.rotation.eulerAngles;
+        Instantiate(Box, location, 
+                Quaternion.Euler(rot.x + (flip ? 180f : 0f), rot.y, rot.z))
             .GetComponent<BoxHolder>()
             .AllBoxControl(speed);
     }
 
 
-    public void PlantBomb(Vector3 location, float timeDelay)
+    public void PlantBomb(Vector3 location, float timeDelay, bool flip=false)
     {
-        Instantiate(bombPrefab, new Vector3(3, 0, 3), bombPrefab.transform.rotation)
+        var rot = bombPrefab.transform.rotation.eulerAngles;
+        Instantiate(bombPrefab, location, 
+                Quaternion.Euler(rot.x + (flip ? 180f : 0f), rot.y, rot.z) 
+            )
             .GetComponent<Bomb>()
             .Explode(timeDelay);
     }
 
-    public void DetonateBomb(Vector3 start, List<Vector3> ends)
+    public void DetonateBomb(Vector3 start, List<Vector3> ends, bool flip=false)
     {
         StartCoroutine(nameof(Burn), new FireParameters()
         {
             Start = start,
-            Ends = ends
+            Ends = ends,
+            Flip = flip
         });
     }
 
@@ -92,25 +99,25 @@ public class SpawnBomb : MonoBehaviour
             if (parameters.Ends[0] != north)
             {
                 north += new Vector3(0, 0, 1);
-                var go = Instantiate(firePrefab, north, Quaternion.Euler(0, -90, 0));
+                var go = Instantiate(firePrefab, north, Quaternion.Euler(parameters.Flip?180:0, -90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
             if (parameters.Ends[1] != south)
             {
                 south += new Vector3(0, 0, -1);
-                var go = Instantiate(firePrefab, south, Quaternion.Euler(0, 90, 0));
+                var go = Instantiate(firePrefab, south, Quaternion.Euler(parameters.Flip?180:0, 90, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
             if (parameters.Ends[2] != west)
             {
                 west += new Vector3(-1, 0, 0);
-                var go = Instantiate(firePrefab, west, Quaternion.Euler(0, 180, 0));
+                var go = Instantiate(firePrefab, west, Quaternion.Euler(parameters.Flip?180:0, 180, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
             if (parameters.Ends[3] != east)
             {
                 east += new Vector3(1, 0, 0);
-                var go = Instantiate(firePrefab, east, Quaternion.Euler(0, 0, 0));
+                var go = Instantiate(firePrefab, east, Quaternion.Euler(parameters.Flip?180:0, 0, 0));
                 go.GetComponent<Fire>().Burn(delayBetweenSpawns + overlapBetweenSpawns);
             }
 
