@@ -206,9 +206,17 @@ public class GameState : NetworkBehaviour
                 arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] = 5;
                 arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] = -5;
                 SceneObjects[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] =
-                    Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player2, p);
+                Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player2, p);
                 Spawner.PlantBomb(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
-                audio.CreateTileBoardRhythm(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                switch (p)
+                {
+                    case PlayerType.Player1:
+                        audio.CreateTileBoardRhythm(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                        break;
+                    case PlayerType.Player2:
+                        audio.CreateTileBoardMelody(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                        break;
+                }
                 mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
                 playerSounds.TileSound();
                 break;
@@ -218,9 +226,17 @@ public class GameState : NetworkBehaviour
                 arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)p] = -5;
                 arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] = 5;
                 SceneObjects[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] =
-                    Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
+                Spawner.SpawnBox(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player1, OtherPlayer(p));
                 Spawner.PlantBomb(new Vector3(playerPositions[(int)p].y, 0, playerPositions[(int)p].x), 2f, p == PlayerType.Player2, p);
-                StartCoroutine(StartShortMelody(playerPositions[(int)p].y, playerPositions[(int)p].x));
+                switch (p)
+                {
+                    case PlayerType.Player1:
+                        audio.CreateTileBoardMelody(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                        break;
+                    case PlayerType.Player2:
+                        audio.CreateTileBoardRhythm(playerPositions[(int)p].y, playerPositions[(int)p].x);
+                        break;
+                }
                 mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
                 break;
             default:
@@ -319,6 +335,15 @@ public class GameState : NetworkBehaviour
                             if (arena[(int)loc.z, (int)loc.x, i] == (int)BlockData.Wall || arena[z, x, i] == (int)BlockData.Wall)
                             {
                                 SceneObjects[(int)loc.z, (int)loc.x, i].GetComponent<BoxHolder>().naikinti();
+                                switch ((PlayerType)i)
+                                {
+                                    case PlayerType.Player1:
+                                        audio.DestroyTileBoardRhythm((int)loc.z, (int)loc.x);
+                                        break;
+                                    case PlayerType.Player2:
+                                        audio.DestroyTileBoardMelody((int)loc.z, (int)loc.x);
+                                        break;
+                                }
                                 arena[(int)loc.z, (int)loc.x, i] = 0;
                             }
 
@@ -330,7 +355,6 @@ public class GameState : NetworkBehaviour
                         }
 
                         Spawner.DetonateBomb(new Vector3(x, 0, z), locations, i == (int)PlayerType.Player2, (PlayerType)i);
-                        playerSounds.BombSound();
                         arenaTimer[z, x, i] = 0;
                     }
                 }

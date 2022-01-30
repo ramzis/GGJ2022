@@ -148,5 +148,5 @@ MonoBehaviour:
   move6: {fileID: 8300000, guid: 6a1e7d2784efa364d9d0a543ecf6d72f, type: 3}
   move7: {fileID: 8300000, guid: 4522caed6b5dcb4408f722a5f0b0bb02, type: 3}
   move8: {fileID: 8300000, guid: 63d588b2e0ee2524882cecb230baabdb, type: 3}
-  placeBomb: {fileID: 8300000, guid: 03d10fea77e752f4c9ea00c73039001c, type: 3}
+  placeBomb: {fileID: 8300000, guid: 226460d7af22a4b408d201ed67efc912, type: 3}
   placeTile: {fileID: 8300000, guid: 8ed424b8c9a0de24f913a0b0fa52c5fc, type: 3}
