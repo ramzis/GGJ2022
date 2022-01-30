@@ -186,8 +186,8 @@ public class GameState : NetworkBehaviour
 
                 break;
             case GameAction.Wall:
-                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == 2) break;
-                if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] !=0) break;
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
+                if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 4;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = -4;
                 SceneObjects[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = 
@@ -195,7 +195,7 @@ public class GameState : NetworkBehaviour
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player1);
                 break;
             case GameAction.Bomb:
-                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == 2) break;
+                if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
                 if (arenaTimer[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] != 0) break;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) p] = -4;
                 arenaTimer[playerPositions[(int) p].x, playerPositions[(int) p].y, (int) OtherPlayer(p)] = 4;
@@ -289,7 +289,7 @@ public class GameState : NetworkBehaviour
 
                 foreach (var loc in locations)
                 {
-                    if (arena[(int) loc.z, (int) loc.x, i] == 2 || arena[z, x, i]==2)
+                    if (arena[(int) loc.z, (int) loc.x, i] == (int) BlockData.Wall || arena[z, x, i] == (int) BlockData.Wall)
                     {
                         SceneObjects[(int) loc.z, (int) loc.x, i].GetComponent<BoxHolder>().naikinti();
                         arena[(int) loc.z, (int) loc.x, i] = 0;
