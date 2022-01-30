@@ -84,6 +84,7 @@ public class GameState : NetworkBehaviour
 
                 if (P1.ActionId == 1) // A - go left, +Z
                 {
+                    Debug.Log(arena[z + 1, x, 0]);
                     if (z < 7 && arena[z + 1, x, 0] != (int)BlockData.Wall)
                     {
                         arena[z, x, 0] = 0;
@@ -159,6 +160,7 @@ public class GameState : NetworkBehaviour
                 {
                     if (P2.ActionId == 1) // A - go left, -X
                     {
+                        
                         if (x > 0 && arena[z, x - 1, 1] != (int)BlockData.Wall)
                         {
                             Debug.Log("-x");
@@ -291,15 +293,19 @@ public class GameState : NetworkBehaviour
                     Vector3 south = new Vector3(x, 0, 0);
                     Vector3 west = new Vector3(0, 0, z);
                     Vector3 east = new Vector3(7, 0, z);
+
                     for (int i = z; i < 8; i++)
                     {
                         if(arena[i,x,0]== (int)BlockData.Wall || arena[i, x, 0] == (int)BlockData.Player)
                         {
                             north.z = i;
-                            if(arena[i, x, 0] == (int)BlockData.Wall)
+                            Debug.Log(i + " " + x + " " + arena[i, x, 0]);
+                            if (arena[i, x, 0] == (int)BlockData.Wall)
                             {
-                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
                                 arena[i, x, 0] = (int)BlockData.Empty;
+                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
+                                
+                                
                             }
                             else
                             {
@@ -313,10 +319,12 @@ public class GameState : NetworkBehaviour
                         if (arena[i, x, 0] == (int)BlockData.Wall || arena[i, x, 0] == (int)BlockData.Player)
                         {
                             south.z = i;
+                            Debug.Log(i + " " + x + " " + arena[i, x, 0]);
                             if (arena[i, x, 0] == (int)BlockData.Wall)
                             {
-                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
                                 arena[i, x, 0] = (int)BlockData.Empty;
+                                SceneObjects[i, x, 0].GetComponent<BoxHolder>()?.naikinti();
+                                
                             }
                             else
                             {
@@ -330,10 +338,12 @@ public class GameState : NetworkBehaviour
                         if (arena[z, i, 0] == (int)BlockData.Wall || arena[z, i, 0] == (int)BlockData.Player)
                         {
                             east.z = i;
+                            Debug.Log(z + " " + i + " " + arena[z, i, 0]);
                             if (arena[z, i, 0] == (int)BlockData.Wall)
                             {
-                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
                                 arena[z, i, 0] = (int)BlockData.Empty;
+                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
+                                
                             }
                             else
                             {
@@ -349,8 +359,10 @@ public class GameState : NetworkBehaviour
                             west.z = i;
                             if (arena[z, i, 0] == (int)BlockData.Wall)
                             {
-                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
+                                Debug.Log(z + " " + i + " " + arena[z, i, 0]);
                                 arena[z, i, 0] = (int)BlockData.Empty;
+                                SceneObjects[z, i, 0].GetComponent<BoxHolder>()?.naikinti();
+                                
                             }
                             else
                             {

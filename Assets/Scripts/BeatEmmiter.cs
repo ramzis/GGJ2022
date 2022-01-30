@@ -26,7 +26,7 @@ public class BeatEmmiter : MonoBehaviour
             netTime = NetworkTime.time;
             wait = Math.Ceiling(NetworkTime.time * 2) / 2 - netTime;
             yield return new WaitForSeconds((float) wait);
-            Debug.Log(NetworkTime.time);
+            //Debug.Log(NetworkTime.time);
             OnBeat?.Invoke();
         }
     }
