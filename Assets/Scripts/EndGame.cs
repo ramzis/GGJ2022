@@ -36,6 +36,10 @@ public class EndGame : MonoBehaviour
                 {
                     manager.StopClient();
                 }
+                if (manager.mode == NetworkManagerMode.ServerOnly)
+                {
+                    manager.StopServer();
+                }
             }
         }
     }
