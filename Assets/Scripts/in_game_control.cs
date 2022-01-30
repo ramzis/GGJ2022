@@ -55,6 +55,6 @@ public class in_game_control : MonoBehaviour
     }
     public void stopServer()
     {
-        networkManager.StopHost();
+        networkManager.StopServer();
     }
 }

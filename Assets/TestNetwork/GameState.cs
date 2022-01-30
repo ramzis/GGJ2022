@@ -13,7 +13,7 @@ public class GameState : NetworkBehaviour
     int[,,] arenaTimer; //(1,2,3,4) - ticks till wall, (-1,-2,-3,-4) - tick till bomb;
     public GameObject Player1Pref;
     public GameObject Player2Pref;
-
+    public Camera mainCam;
     public SpawnBomb Spawner;
 
     public GameObject Player1Instance, Player2Instance;
@@ -200,6 +200,7 @@ public class GameState : NetworkBehaviour
                     Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player2);
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player1);
                 audio.CreateTileBoardRhythm(playerPositions[(int) p].y, playerPositions[(int) p].x);
+                mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value*0.5f);
                 break;
             case GameAction.Bomb:
                 if (arena[playerPositions[(int)p].x, playerPositions[(int)p].y, (int)OtherPlayer(p)] == (int) BlockData.Wall) break;
@@ -210,6 +211,7 @@ public class GameState : NetworkBehaviour
                     Spawner.SpawnBox(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f,p==PlayerType.Player1);
                 Spawner.PlantBomb(new Vector3(playerPositions[(int) p].y, 0, playerPositions[(int) p].x), 2f, p==PlayerType.Player2);
                 StartCoroutine(StartShortMelody(playerPositions[(int) p].y, playerPositions[(int) p].x));
+                mainCam.GetComponent<CameraEffects>().Shake(UnityEngine.Random.value * 0.5f);
                 break;
             default:
                 Debug.Log(actionToCheck);
