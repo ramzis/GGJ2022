@@ -114,9 +114,9 @@ public class GameState : NetworkBehaviour
                     }
                 }
 
-                if (P1.ActionId == 4 && arena[z, x - 1, 0] != (int)BlockData.Wall) // S - go left, -X
+                if (P1.ActionId == 4 ) // S - go left, -X
                 {
-                    if (x > 0)
+                    if (x > 0 && arena[z, x - 1, 0] != (int)BlockData.Wall)
                     {
                         arena[z, x, 0] = 0;
                         arena[z, x - 1, 0] = 1;
