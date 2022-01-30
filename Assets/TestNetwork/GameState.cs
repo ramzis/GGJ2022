@@ -301,9 +301,7 @@ public class GameState : NetworkBehaviour
 
                     if (arena[(int) loc.z, (int) loc.x, i] == 1)
                     {
-                        if(i==1)
-                            SceneManager.LoadScene("P1Win");
-                        else SceneManager.LoadScene("P2Win");
+                        SceneManager.LoadScene(i == 1 ? "P1Win" : "P2Win");
                     }
                 }
                 
